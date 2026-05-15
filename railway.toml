@@ -1,4 +1,4 @@
-# Railway → Settings → Root Directory MUST be: apps/api
+# Use when this Railway service root is the repository root (not apps/api).
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"

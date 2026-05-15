@@ -19,6 +19,7 @@ async function main() {
   const port = Number(process.env.PORT) || env.PORT;
   app.listen(port, "0.0.0.0", () => {
     console.log(`[api] Site Mitra API listening on 0.0.0.0:${port} (${env.API_URL})`);
+    console.log(`[api] CORS_ORIGIN → allowed origins:`, env.corsOrigins);
     void bootstrapDatabase();
   });
 }
