@@ -77,8 +77,9 @@ if (isProd) {
   if (!raw.JWT_SECRET) missing.push("JWT_SECRET");
 
   if (missing.length > 0) {
-    console.error(`Missing required production env: ${missing.join(", ")}`);
-    process.exit(1);
+    console.error(
+      `[env] Missing recommended production env: ${missing.join(", ")} — API will start but DB/auth may fail`,
+    );
   }
 
   const cors = raw.CORS_ORIGIN.toLowerCase();

@@ -16,8 +16,9 @@ async function bootstrapDatabase() {
 async function main() {
   const app = createApp();
 
-  app.listen(env.PORT, "0.0.0.0", () => {
-    console.log(`[api] Site Mitra API listening on 0.0.0.0:${env.PORT} (${env.API_URL})`);
+  const port = Number(process.env.PORT) || env.PORT;
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`[api] Site Mitra API listening on 0.0.0.0:${port} (${env.API_URL})`);
     void bootstrapDatabase();
   });
 }
