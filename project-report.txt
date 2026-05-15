@@ -1,0 +1,50 @@
+Site Mitra — Detailed Project Report
+1. Project Introduction
+Site Mitra is a modern construction and property business networking platform designed to create a trusted digital ecosystem for the construction industry.  The platform aims to connect: • Engineers • Contractors • Architects • Interior Designers • Vendors • Material Suppliers • Fabricators • Builders • Property Agents • Skilled Workers  The primary vision of Site Mitra is to help businesses gain digital visibility while enabling customers to easily discover trusted professionals and services within the construction and property sector.
+2. Project Type
+Site Mitra is not a standard corporate or portfolio website.  The platform is designed as a: • Business Listing Platform • Networking Platform • Lead Generation Platform • Vendor Showcase Platform • Construction Industry Ecosystem  The system focuses on creating a scalable digital platform where professionals and vendors can build trust, showcase work, and generate business inquiries.
+3. Main Objectives
+Customer Objectives: • Search professionals by category and city • Find trusted businesses • Compare services and profiles • Contact businesses directly • View reviews and work showcases • Submit requirements and inquiries  Business Objectives: • Create professional online profiles • Improve online visibility • Receive leads and inquiries • Showcase projects and products • Build trust through reviews and ratings • Upgrade visibility through membership plans
+4. User Categories
+The platform supports multiple professional and business categories including: • Civil Engineers • Contractors • Architects • Interior Designers • Material Suppliers • Tile Vendors • Fabricators • Electricians • Plumbers • Builders • Property Dealers • Skilled Workers
+5. Website Workflow
+Customer Workflow: Visitor opens website → Searches category/city → Views profiles → Contacts businesses through call or WhatsApp → Sends inquiry  Business Workflow: Business creates account → Chooses Free or Standard plan → Creates profile → Uploads details/photos/catalogues → Gets listed on platform
+6. Membership System
+FREE PLAN Purpose: Basic online presence.  Features: • Name visible • Category visible • City visible • Phone number visible • WhatsApp button visible • Basic profile  Restrictions: • No project/work photos • No client reviews • No ratings • Lower search ranking • No catalogue uploads  STANDARD PLAN (Paid) Purpose: Better visibility, trust, and lead generation.  Features: • Priority listing placement • Featured visibility • Verification badge • Project/work gallery • Client reviews and ratings • Better search visibility • Product catalogue uploads • Product images and brochures • Better lead opportunities
+7. Payment System
+The platform includes an online payment system for paid membership upgrades.  Payment Gateway: • Razorpay Integration  Supported Payment Methods: • UPI • Debit/Credit Cards • Net Banking • Wallets  Payment Workflow: User registers → Clicks Upgrade → Makes payment → Membership activates automatically  Admin can manage: • Payments • Membership status • Expiry dates • Plan activation
+8. Homepage Design
+The homepage will follow a modern startup-style design approach.  Homepage Sections: • Hero Section with construction visuals • Search functionality • Categories section • Featured premium members • Vendor showcase • Testimonials and reviews • Social media/reels integration • Call-to-action sections • Mobile responsive experience  Design Theme: • Modern • Premium • Professional • Construction + Technology feel  Color Palette: • Black • White • Yellow/Orange accents
+9. Business Listing Pages
+Listing pages such as 'Contractors in Akola' will include: • Filters • Search functionality • Category-wise listings • Business profile cards • WhatsApp contact buttons • Featured/Priority listings  Premium listings will additionally display: • Verification badges • Ratings • Reviews • Gallery previews
+10. Business Profile Pages
+FREE PROFILE Displays: • Name • Profession • About information • City • Phone number • WhatsApp button  STANDARD PROFILE Displays: • Logo and branding • Services and experience • Project gallery • Reviews and ratings • Verification badge • Product catalogues • Brochures and media uploads
+11. WhatsApp Integration
+The platform is designed with WhatsApp-first communication flow.  Users can: • Chat directly on WhatsApp • Send inquiries instantly • Contact vendors and professionals quickly
+12. Lead Inquiry System
+Visitors can submit inquiries for: • Contractors • Architects • Labour • Suppliers • Other services  Inquiry forms include: • Name • Phone number • City • Requirement details  Leads are prioritized mainly for Standard members.
+13. Reviews & Ratings
+The platform supports: • Ratings • Testimonials • Customer reviews  These features help businesses build trust, credibility, and better visibility.
+14. Admin Panel
+The admin panel allows management of: • Users • Listings • Membership plans • Payments • Reviews • Leads • Homepage banners • Featured profiles • Categories
+15. Authentication System
+Users can: • Register • Login • Edit profiles • Upgrade memberships  Possible login methods: • Email/password • Mobile OTP (future enhancement)
+16. Business Dashboard
+Businesses receive dashboard access where they can: • Edit profiles • Upload images • Upload catalogues • Manage inquiries • Upgrade memberships • View membership status
+17. Vendor Catalogue System
+Vendors and suppliers can upload: • PDF catalogues • Product images • Brochures • Brand information  Users can: • View catalogues • Download catalogues • Share catalogues
+18. SEO Strategy
+The platform is designed with SEO-focused architecture.  Examples: • Contractors in Akola • Architects in Pune • Tile Suppliers in Mumbai  The objective is to improve Google search visibility and generate organic traffic.
+19. Mobile-First Design
+The platform prioritizes mobile users with: • Responsive layouts • Fast loading speed • Smooth mobile browsing • WhatsApp-first experience
+20. Technology Approach
+The platform will be developed using: • Next.js • Express.js • Modern responsive UI architecture • SEO-friendly structure  The project follows a customized modern web application approach.
+21. Revenue Model
+Revenue sources include: • Standard memberships • Featured listings • Vendor promotions • Advertisements • Paid leads • Future premium plans
+22. Future Expansion Scope
+Future scalable modules may include: • Mobile applications • Jobs portal • Tender listings • Material marketplace • AI recommendation systems • Advanced premium plans • Vendor advertising systems
+23. Development Timeline
+MVP Launch Target: 15 May 2026  Final Optimization & Polishing: Additional 4 working days after MVP launch.  The MVP version includes: • Homepage • Listings system • Business profiles • Membership system • Dashboard • Inquiry system • Payment integration • Admin management
+24. Conclusion
+Site Mitra is designed as a scalable construction and property business ecosystem focused on helping professionals and vendors build visibility, trust, networking opportunities, and lead generation through one centralized digital platform.  The project combines directory listings, vendor showcase systems, membership plans, payment integration, and business networking into one modern startup-style ecosystem.
+ Prepared By: Pixels Digital Solution Owner: Piyush Magar

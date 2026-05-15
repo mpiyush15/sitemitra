@@ -1,0 +1,11 @@
+export { userRepository } from "./user.repository.js";
+export { businessProfileRepository } from "./business-profile.repository.js";
+export { categoryRepository } from "./category.repository.js";
+export { reviewRepository } from "./review.repository.js";
+export { catalogueRepository } from "./catalogue.repository.js";
+export { searchLogRepository } from "./search-log.repository.js";
+export { cityRepository } from "./city.repository.js";
+export { inquiryRepository } from "./inquiry.repository.js";
+export { membershipRepository } from "./membership.repository.js";
+export { paymentSettingsRepository } from "./payment-settings.repository.js";
+export { profileViewRepository } from "./profile-view.repository.js";

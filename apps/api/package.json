@@ -1,0 +1,47 @@
+{
+  "name": "site-mitra-api",
+  "version": "1.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "seed:superadmin": "tsx src/scripts/seed-superadmin.ts",
+    "seed:categories": "tsx src/scripts/seed-categories.ts",
+    "seed:cities": "tsx src/scripts/seed-cities.ts",
+    "seed:test-business": "tsx src/scripts/seed-test-business.ts",
+    "seed:demo-businesses": "tsx src/scripts/seed-demo-businesses.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1047.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1",
+    "sharp": "^0.34.5",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.6.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,401 @@
+Site Mitra — System Architecture & Technical Planning
+1. Project Overview
+Site Mitra is a construction and property business networking platform designed to connect professionals, vendors, suppliers, builders, and customers into one digital ecosystem.
+The platform functions as:
+Business Listing Platform
+Vendor Showcase Platform
+Lead Generation Platform
+Networking Platform
+Membership-Based Visibility Platform
+
+2. Technical Architecture Approach
+Recommended MVP Architecture
+Frontend Layer
+Next.js
+Tailwind CSS
+Responsive UI Architecture
+SEO-Friendly Pages
+Backend Layer
+Express.js
+REST APIs
+Authentication System
+Business Logic Layer
+Database Layer
+MongoDB
+Mongoose ODM
+Hosting & Deployment
+Hostinger VPS
+Nginx Reverse Proxy
+PM2 Process Management
+Node.js Runtime
+
+3. System Modules
+Public Website Modules
+Homepage
+Hero Section
+Search System
+Categories Grid
+Featured Members
+Vendor Showcase
+Testimonials
+CTA Sections
+
+Listing Pages
+Category-based listings
+City-based listings
+Search & filtering
+Featured ranking logic
+Business cards
+
+Business Profile Pages
+Company profile
+Services
+Gallery
+Reviews
+WhatsApp integration
+Catalogue downloads
+
+Authentication Modules
+User Registration
+Email/password registration
+OTP login (future)
+Business onboarding
+User Login
+JWT authentication
+Session management
+Role-based access
+
+Dashboard Modules
+Business Dashboard
+Dashboard overview
+Edit profile
+Manage listings
+Upload gallery
+Upload catalogues
+Membership management
+Lead management
+Reviews management
+
+Admin Dashboard
+User management
+Membership management
+Listings moderation
+Payment management
+Leads management
+Banner management
+Featured listings
+Analytics overview
+
+Payment System
+Razorpay Integration
+Features:
+UPI
+Cards
+Net Banking
+Wallets
+Payment Flow: User → Upgrade Plan → Payment → Plan Activation
+
+4. User Roles & RBAC Planning
+RBAC (Role-Based Access Control)
+1. Super Admin
+Permissions:
+Full system control
+Manage users
+Manage plans
+Manage payments
+Manage listings
+Manage categories
+Moderate reviews
+Control homepage sections
+Access analytics
+
+2. Business User (Free)
+Permissions:
+Create profile
+Edit profile
+Basic listing visibility
+Add contact information
+WhatsApp integration
+View dashboard
+Restrictions:
+No premium visibility
+No reviews
+No project gallery
+No catalogue upload
+
+3. Business User (Standard/Premium)
+Permissions:
+Featured listing visibility
+Upload project gallery
+Upload catalogues
+Display reviews/ratings
+Verification badge
+Better search visibility
+Lead access
+Vendor showcase
+
+4. Customer/Visitor
+Permissions:
+Search listings
+View profiles
+Send inquiries
+Contact businesses
+Download catalogues
+
+5. Database Architecture Planning
+Database: MongoDB
+
+Core Collections
+users
+Purpose: Store user accounts and authentication details.
+Fields:
+_id
+fullName
+email
+phone
+passwordHash
+role
+membershipPlan
+isVerified
+createdAt
+updatedAt
+
+business_profiles
+Purpose: Store business profile information.
+Fields:
+_id
+userId
+businessName
+slug
+category
+subCategory
+city
+state
+description
+services
+experience
+logo
+gallery
+whatsappNumber
+phoneNumber
+website
+socialLinks
+membershipType
+verificationBadge
+rating
+totalReviews
+createdAt
+
+categories
+Purpose: Manage business categories.
+Fields:
+_id
+categoryName
+slug
+icon
+isActive
+
+inquiries
+Purpose: Store customer lead inquiries.
+Fields:
+_id
+businessId
+customerName
+phone
+city
+requirement
+inquiryStatus
+createdAt
+
+memberships
+Purpose: Store plan details.
+Fields:
+_id
+planName
+price
+features
+duration
+isActive
+
+payments
+Purpose: Store Razorpay payment records.
+Fields:
+_id
+userId
+paymentId
+orderId
+amount
+paymentStatus
+membershipId
+paidAt
+
+reviews
+Purpose: Store customer reviews and ratings.
+Fields:
+_id
+businessId
+customerName
+rating
+reviewText
+isApproved
+createdAt
+
+catalogues
+Purpose: Store vendor catalogues.
+Fields:
+_id
+businessId
+title
+fileUrl
+thumbnail
+uploadedAt
+
+banners
+Purpose: Manage homepage banners.
+Fields:
+_id
+title
+imageUrl
+redirectUrl
+isActive
+
+6. API Planning
+Authentication APIs
+POST /api/auth/register
+POST /api/auth/login
+GET /api/auth/profile
+POST /api/auth/logout
+
+Business APIs
+GET /api/business
+GET /api/business/:slug
+POST /api/business/create
+PUT /api/business/update
+DELETE /api/business/delete
+
+Membership APIs
+GET /api/plans
+POST /api/upgrade
+POST /api/payment/verify
+
+Inquiry APIs
+POST /api/inquiry/create
+GET /api/inquiry/business
+
+Review APIs
+POST /api/review/create
+GET /api/review/business
+
+7. Search & Ranking Logic
+Ranking Priority
+Standard Members
+Featured at top
+Better search visibility
+Highlighted cards
+Free Members
+Listed below premium users
+
+Search Filters
+Category
+City
+Service
+Ratings
+Verified businesses
+Membership type
+
+8. SEO Planning
+SEO-Friendly URLs
+Examples:
+/contractors-in-akola
+/architects-in-pune
+/tile-suppliers-in-mumbai
+
+SEO Features
+Dynamic meta tags
+OpenGraph support
+Sitemap generation
+Schema markup
+Fast page loading
+Mobile optimization
+
+9. Wireframe Planning
+Homepage Wireframe
+Navbar ↓ Hero Section ↓ Search Bar ↓ Categories Grid ↓ Featured Members ↓ Vendor Showcase ↓ Testimonials ↓ CTA Banner ↓ Footer
+
+Listing Page Wireframe
+Top Search Bar ↓ Filters Sidebar ↓ Listings Grid ↓ Pagination
+
+Business Profile Wireframe
+Cover Banner ↓ Business Info ↓ Contact Buttons ↓ Services ↓ Gallery ↓ Reviews ↓ Catalogues ↓ Inquiry Form
+
+Dashboard Wireframe
+Sidebar Navigation
+Dashboard
+My Profile
+My Listings
+Gallery
+Catalogues
+Leads
+Membership
+Reviews
+Settings
+Main Content Area
+
+10. MVP Development Scope
+Included in MVP
+Public Website
+Homepage
+Listings
+Business profiles
+Search/filter
+Mobile responsive UI
+Dashboard
+Login/Register
+Basic dashboard
+Profile editing
+Gallery upload
+Membership management
+Admin
+User management
+Listing management
+Payments
+Leads
+Payment System
+Razorpay integration
+Standard plan activation
+
+11. Future Expansion Planning
+Future modules may include:
+Mobile applications
+Tender system
+Job portal
+AI recommendations
+Marketplace system
+Ads manager
+Advanced analytics
+CRM system
+
+12. Deployment Planning
+VPS Deployment Architecture
+Hostinger VPS ↓ Nginx Reverse Proxy ↓ Next.js Frontend ↓ Express.js Backend ↓ MongoDB Database
+
+13. Security Planning
+Security Features
+JWT authentication
+Password hashing
+Rate limiting
+Secure API validation
+Role-based access control
+File upload validation
+HTTPS SSL
+
+14. Conclusion
+Site Mitra is planned as a scalable construction and property networking ecosystem combining:
+Business listings
+Vendor showcase
+Membership monetization
+Lead generation
+Premium visibility system
+Dashboard management
+SEO-focused discovery
+The platform architecture is designed to support MVP launch requirements while remaining scalable for future expansion and advanced marketplace features.

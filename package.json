@@ -1,0 +1,10 @@
+{
+  "name": "site-mitra",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Site Mitra — construction business listing platform",
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ]
+}

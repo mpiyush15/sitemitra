@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Build outputs
+apps/api/dist/
+apps/web/.next/
+apps/web/out/
+apps/web/build/
+
+# Uploads & local data
+apps/api/uploads/
+*.log
+
+# OS & tooling
+.DS_Store
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+.pnp.*
+coverage/
