@@ -32,35 +32,58 @@ export function createApp() {
 
   const localDev = isLocalDevServer();
 
+  /**
+   * Normalise an origin string the same way parseCorsOriginList does so that
+   * case differences and accidental trailing slashes never cause a mismatch.
+   */
+  function normaliseOrigin(origin: string): string {
+    return origin.trim().toLowerCase().replace(/\/+$/, "");
+  }
+
   function isOriginAllowed(origin: string): boolean {
     if (localDev) {
       return /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3})(:\d+)?$/.test(
         origin,
       );
     }
-    return env.corsOrigins.includes(origin);
+    return env.corsOrigins.includes(normaliseOrigin(origin));
   }
 
   // Always first — manual CORS (cors package was not emitting Allow-Origin with our setup).
   app.use((req, res, next) => {
     const origin = req.headers.origin;
     const allowed = Boolean(origin && isOriginAllowed(origin));
+
+    console.log(
+      `[CORS] method=${req.method} origin=${origin ?? "(none)"} ` +
+        `allowed=${allowed} allowedList=${JSON.stringify(env.corsOrigins)}`,
+    );
+
     if (allowed && origin) {
       res.setHeader("Access-Control-Allow-Origin", origin);
       res.setHeader("Vary", "Origin");
       res.setHeader("Access-Control-Allow-Credentials", "true");
     }
+
     if (req.method === "OPTIONS") {
-      if (allowed) {
+      if (allowed && origin) {
         res.setHeader(
           "Access-Control-Allow-Methods",
           "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
         );
         res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        res.setHeader("Access-Control-Max-Age", "86400");
+        console.log(`[CORS] preflight approved for origin=${origin}`);
+        res.status(204).end();
+      } else {
+        console.warn(
+          `[CORS] preflight REJECTED — origin=${origin ?? "(none)"} not in allowed list`,
+        );
+        res.status(403).end();
       }
-      res.status(204).end();
       return;
     }
+
     next();
   });
 
