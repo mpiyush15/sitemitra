@@ -1,6 +1,21 @@
 import { config } from "dotenv";
 import { z } from "zod";
 
+/** Railway raw editor often saves values with surrounding quotes — strip them. */
+function sanitizeProcessEnv() {
+  for (const [key, value] of Object.entries(process.env)) {
+    if (typeof value !== "string") continue;
+    const trimmed = value.trim();
+    if (
+      (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+      (trimmed.startsWith("'") && trimmed.endsWith("'"))
+    ) {
+      process.env[key] = trimmed.slice(1, -1);
+    }
+  }
+}
+
+sanitizeProcessEnv();
 config();
 
 const PLACEHOLDER_RAZORPAY_KEY_ID = "rzp_placeholder";
@@ -99,7 +114,9 @@ export const env = {
   ...raw,
   jwtSecret:
     raw.JWT_SECRET || (isProd ? "" : "dev-jwt-secret-replace-before-production"),
-  corsOrigins: raw.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean),
+  corsOrigins: raw.CORS_ORIGIN.split(",")
+    .map((o) => o.trim().replace(/^["']|["']$/g, ""))
+    .filter(Boolean),
   hasDatabase: Boolean(raw.MONGODB_URI),
   hasRazorpay:
     raw.RAZORPAY_KEY_ID !== PLACEHOLDER_RAZORPAY_KEY_ID &&
