@@ -20,6 +20,7 @@ import { adminSocialReelRouter, socialReelRouter } from "./routes/social-reels.j
 import { bannersPublicRouter } from "./routes/banners-public.js";
 import { healthRouter } from "./routes/health.js";
 import { searchRouter } from "./routes/search.js";
+import { customerRouter } from "./routes/customer.js";
 
 export function createApp() {
   const app = express();
@@ -60,6 +61,7 @@ export function createApp() {
   app.use("/api/social-reels", socialReelRouter);
   app.use("/api/admin/social-reels", adminSocialReelRouter);
   app.use("/api/businesses", businessRouter);
+  app.use("/api/customer", customerRouter);
   app.use("/api/search", searchRouter);
 
   app.use(notFoundHandler);

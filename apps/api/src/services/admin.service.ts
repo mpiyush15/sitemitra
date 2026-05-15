@@ -83,6 +83,7 @@ export const adminService = {
   async moderateReview(id: string, isApproved: boolean) {
     const review = await reviewRepository.updateApproval(id, isApproved);
     if (!review) return null;
+    await reviewRepository.syncBusinessRating(review.businessId.toString());
     return {
       id: review._id.toString(),
       isApproved: review.isApproved,

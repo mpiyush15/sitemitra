@@ -70,8 +70,8 @@ export function toBusinessCard(profile: BusinessProfileDocument): BusinessCard {
     membershipType: profile.membershipType,
     verificationBadge: isPremium ? profile.verificationBadge : false,
     isFeatured: profile.isFeatured,
-    rating: isPremium ? profile.rating : 0,
-    totalReviews: isPremium ? profile.totalReviews : 0,
+    rating: profile.totalReviews > 0 ? profile.rating : 0,
+    totalReviews: profile.totalReviews ?? 0,
     description: profile.description ?? "",
   };
 }
@@ -113,7 +113,7 @@ export function toBusinessDetail(
     gallery: isPremium ? base.gallery : [],
     services: isPremium ? base.services : [],
     experience: isPremium ? base.experience : "",
-    reviews: isPremium ? extras.reviews.map(toPublicReview) : [],
+    reviews: extras.reviews.map(toPublicReview),
     catalogues: isPremium ? extras.catalogues.map(toPublicCatalogue) : [],
     isPremium,
     planFeatures: isPremium ? [...DEFAULT_STANDARD_FEATURES] : [...DEFAULT_FREE_FEATURES],

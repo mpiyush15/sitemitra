@@ -8,6 +8,12 @@ const reviewSchema = new Schema(
       required: true,
       index: true,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true,
+    },
     customerName: { type: String, required: true, trim: true, maxlength: 120 },
     rating: { type: Number, required: true, min: 1, max: 5 },
     reviewText: { type: String, trim: true, default: "", maxlength: 2000 },
@@ -17,6 +23,10 @@ const reviewSchema = new Schema(
 );
 
 reviewSchema.index({ businessId: 1, createdAt: -1 });
+reviewSchema.index(
+  { businessId: 1, userId: 1 },
+  { unique: true, partialFilterExpression: { userId: { $type: "objectId" } } },
+);
 
 export type Review = InferSchemaType<typeof reviewSchema>;
 export type ReviewDocument = HydratedDocument<Review>;

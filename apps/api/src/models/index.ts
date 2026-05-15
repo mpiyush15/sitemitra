@@ -10,6 +10,7 @@ export { PaymentSettingsModel, type PaymentSettingsDocument } from "./payment-se
 export { MembershipModel, type MembershipDocument } from "./membership.model.js";
 export { PaymentModel, type PaymentDocument } from "./payment.model.js";
 export { ReviewModel, type ReviewDocument } from "./review.model.js";
+export { SavedBusinessModel, type SavedBusinessDocument } from "./saved-business.model.js";
 export { CatalogueModel, type CatalogueDocument } from "./catalogue.model.js";
 export { BannerModel, type BannerDocument } from "./banner.model.js";
 export { SocialReelModel, type SocialReelDocument } from "./social-reel.model.js";

@@ -2,6 +2,7 @@ export { userRepository } from "./user.repository.js";
 export { businessProfileRepository } from "./business-profile.repository.js";
 export { categoryRepository } from "./category.repository.js";
 export { reviewRepository } from "./review.repository.js";
+export { savedBusinessRepository } from "./saved-business.repository.js";
 export { catalogueRepository } from "./catalogue.repository.js";
 export { searchLogRepository } from "./search-log.repository.js";
 export { cityRepository } from "./city.repository.js";

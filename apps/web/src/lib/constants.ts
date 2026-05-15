@@ -178,6 +178,12 @@ export const API_ROUTES = {
   },
   socialReels: "/social-reels",
   businesses: "/businesses",
+  customer: {
+    engagement: (slug: string) =>
+      `/customer/businesses/${encodeURIComponent(slug)}/engagement`,
+    saved: (slug: string) => `/customer/businesses/${encodeURIComponent(slug)}/saved`,
+    review: (slug: string) => `/customer/businesses/${encodeURIComponent(slug)}/reviews`,
+  },
   search: {
     popular: "/search/popular",
     record: "/search/record",

@@ -2,8 +2,34 @@ import { SITE_NAME } from "./constants";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+function normalizeBase(url: string) {
+  return url.replace(/\/$/, "");
+}
+
+function joinPath(base: string, path: string) {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizeBase(base)}${normalized}`;
+}
+
 export function getSiteUrl(path = "") {
-  return `${siteUrl.replace(/\/$/, "")}${path.startsWith("/") ? path : `/${path}`}`;
+  return joinPath(siteUrl, path);
+}
+
+/** Share links: production uses NEXT_PUBLIC_SITE_URL; dev uses current browser origin. */
+export function getBusinessProfileShareUrl(slug: string, browserOrigin?: string) {
+  const segment = encodeURIComponent(slug);
+  const path = `/business/${segment}`;
+  const configured = normalizeBase(siteUrl);
+  const isLocalConfigured =
+    configured.includes("localhost") ||
+    configured.includes("127.0.0.1") ||
+    configured.startsWith("http://192.168.");
+
+  if (browserOrigin && (isLocalConfigured || !process.env.NEXT_PUBLIC_SITE_URL)) {
+    return joinPath(browserOrigin, path);
+  }
+
+  return joinPath(configured, path);
 }
 
 export function buildPageTitle(...parts: string[]) {

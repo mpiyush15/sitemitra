@@ -6,5 +6,9 @@
   "workspaces": [
     "apps/web",
     "apps/api"
-  ]
+  ],
+  "scripts": {
+    "build:web": "npm run build -w site-mitra-web",
+    "build:api": "npm run build -w site-mitra-api"
+  }
 }

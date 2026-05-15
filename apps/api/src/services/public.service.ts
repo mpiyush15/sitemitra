@@ -77,7 +77,7 @@ export const businessService = {
     }
 
     const [reviews, catalogues] = await Promise.all([
-      reviewRepository.findApprovedByBusinessId(profile._id.toString()),
+      reviewRepository.findApprovedByBusinessId(profile._id.toString(), 50),
       catalogueRepository.findByBusinessId(profile._id.toString()),
     ]);
 
