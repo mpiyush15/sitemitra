@@ -3,6 +3,16 @@ import { z } from "zod";
 
 config();
 
+const PLACEHOLDER_RAZORPAY_KEY_ID = "rzp_placeholder";
+const PLACEHOLDER_RAZORPAY_KEY_SECRET = "placeholder_secret";
+const DEFAULT_STANDARD_PLAN_AMOUNT_PAISE = 99900;
+
+const optionalString = (fallback: string) =>
+  z
+    .string()
+    .optional()
+    .transform((v) => v?.trim() || fallback);
+
 const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
@@ -13,10 +23,15 @@ const envSchema = z.object({
   JWT_SECRET: z.string().default(""),
   JWT_EXPIRES_IN: z.string().default("7d"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
-  RAZORPAY_KEY_ID: z.string().default(""),
-  RAZORPAY_KEY_SECRET: z.string().default(""),
-  RAZORPAY_WEBHOOK_SECRET: z.string().default(""),
-  STANDARD_PLAN_AMOUNT_PAISE: z.coerce.number().int().nonnegative().default(0),
+  RAZORPAY_KEY_ID: optionalString(PLACEHOLDER_RAZORPAY_KEY_ID),
+  RAZORPAY_KEY_SECRET: optionalString(PLACEHOLDER_RAZORPAY_KEY_SECRET),
+  RAZORPAY_WEBHOOK_SECRET: z.string().optional().default(""),
+  STANDARD_PLAN_AMOUNT_PAISE: z.coerce
+    .number()
+    .int()
+    .nonnegative()
+    .optional()
+    .transform((v) => (v != null && v > 0 ? v : DEFAULT_STANDARD_PLAN_AMOUNT_PAISE)),
   STANDARD_PLAN_DURATION_DAYS: z.coerce.number().int().positive().default(365),
   UPLOAD_DIR: z.string().default("./uploads"),
   MAX_UPLOAD_SIZE_MB: z.coerce.number().int().positive().default(5),
@@ -45,9 +60,6 @@ if (isProd) {
   const missing: string[] = [];
   if (!raw.MONGODB_URI) missing.push("MONGODB_URI");
   if (!raw.JWT_SECRET) missing.push("JWT_SECRET");
-  if (!raw.RAZORPAY_KEY_ID) missing.push("RAZORPAY_KEY_ID");
-  if (!raw.RAZORPAY_KEY_SECRET) missing.push("RAZORPAY_KEY_SECRET");
-  if (raw.STANDARD_PLAN_AMOUNT_PAISE <= 0) missing.push("STANDARD_PLAN_AMOUNT_PAISE");
 
   if (missing.length > 0) {
     console.error(`Missing required production env: ${missing.join(", ")}`);
@@ -77,7 +89,9 @@ export const env = {
     raw.JWT_SECRET || (isProd ? "" : "dev-jwt-secret-replace-before-production"),
   corsOrigins: raw.CORS_ORIGIN.split(",").map((o) => o.trim()).filter(Boolean),
   hasDatabase: Boolean(raw.MONGODB_URI),
-  hasRazorpay: Boolean(raw.RAZORPAY_KEY_ID && raw.RAZORPAY_KEY_SECRET),
+  hasRazorpay:
+    raw.RAZORPAY_KEY_ID !== PLACEHOLDER_RAZORPAY_KEY_ID &&
+    raw.RAZORPAY_KEY_SECRET !== PLACEHOLDER_RAZORPAY_KEY_SECRET,
   maxUploadBytes: raw.MAX_UPLOAD_SIZE_MB * 1024 * 1024,
   s3: {
     enabled: s3Enabled,

@@ -1,0 +1,88 @@
+Site Mitra — Client Requirement & Content Collection Document
+To ensure smooth and timely development of the Site Mitra platform, the following information, media assets, branding materials, and business details are required from the client side.
+1. Brand & Business Information
+Business/company name
+Tagline or slogan
+About company/business description
+Mission/Vision statement
+Contact details
+Official email IDs
+Office address/location details
+Social media links
+2. Branding Assets
+Company logo (PNG/SVG preferred)
+Brand colors
+Typography/font preferences if any
+Favicon/logo icon
+Brand guidelines (if available)
+3. Homepage Content Requirements
+Hero section heading banners
+Hero section subheading
+Call-to-action text
+Construction-related banner images/videos
+Homepage promotional content
+Featured vendor/business details
+Testimonials/reviews
+Instagram/social media links
+4. Categories & Listing Structure
+Final business categories list
+Subcategories list
+City/location coverage
+Priority categories
+5. Business Listing Data Initial if needed only
+Business names
+Contact numbers
+WhatsApp numbers
+Business descriptions
+Services offered
+Location/city details
+Business logos/images
+6. Vendor & Catalogue Content Initial if needed only
+Product catalogues (PDFs)
+Vendor brochures
+Product images
+Supplier details
+Brand information
+7. Membership & Pricing Information
+Final Standard Plan pricing
+Membership duration details
+Features for the plans
+Plan feature confirmation
+Future premium plan ideas
+8. Payment Gateway Requirements
+Razorpay account details
+Business PAN/GST details if required
+Bank settlement information
+Payment account access/credentials (shared securely when required)
+9. SEO & Location Information
+Target cities/locations
+Target service keywords
+Preferred SEO pages
+Competitor/reference websites
+10. Media & Gallery Content
+Construction/project images
+Work showcase images
+Team photographs
+Office/store images
+Banner images
+Promotional videos
+11. Legal & Business Information
+Privacy Policy content
+Terms & Conditions content
+Business registration details
+GST details (if applicable)
+12. Admin & Access Requirements
+Email access for integrations
+Required admin users
+13. Future Expansion Discussion
+Future mobile app plans
+Advertisement system plans
+Job/tender module plans
+Marketplace expansion ideas
+Future monetization plans
+14. Important Notes
+Delays in content/media submission may affect project timelines.
+Content should preferably be shared in organized Google Drive folders.
+High-quality images and finalized content will improve overall platform quality.
+Major structural/content changes after finalization may impact delivery schedules.
+ Prepared By: Pixels Digital Solution Owner: Piyush Magar
