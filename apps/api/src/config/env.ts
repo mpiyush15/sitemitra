@@ -16,7 +16,8 @@ function sanitizeProcessEnv() {
 }
 
 sanitizeProcessEnv();
-config();
+// Local .env must win over a stale NODE_ENV=production in the shell.
+config({ override: true });
 
 const PLACEHOLDER_RAZORPAY_KEY_ID = "rzp_placeholder";
 const PLACEHOLDER_RAZORPAY_KEY_SECRET = "placeholder_secret";
@@ -111,13 +112,25 @@ const s3PublicBaseUrl =
     ? `https://${raw.S3_BUCKET_NAME}.s3.${raw.AWS_REGION}.amazonaws.com`
     : "");
 
+function parseCorsOriginList(value: string): string[] {
+  return value
+    .split(",")
+    .map((o) => o.trim().replace(/^["']|["']$/g, ""))
+    .filter(Boolean);
+}
+
+function resolveCorsOrigins(corsOrigin: string, nodeEnv: string): string[] {
+  const fromEnv = parseCorsOriginList(corsOrigin);
+  if (nodeEnv !== "development") return fromEnv;
+  const devDefaults = ["http://localhost:3000", "http://127.0.0.1:3000"];
+  return [...new Set([...fromEnv, ...devDefaults])];
+}
+
 export const env = {
   ...raw,
   jwtSecret:
     raw.JWT_SECRET || (isProd ? "" : "dev-jwt-secret-replace-before-production"),
-  corsOrigins: raw.CORS_ORIGIN.split(",")
-    .map((o) => o.trim().replace(/^["']|["']$/g, ""))
-    .filter(Boolean),
+  corsOrigins: resolveCorsOrigins(raw.CORS_ORIGIN, raw.NODE_ENV),
   hasDatabase: Boolean(raw.MONGODB_URI),
   hasRazorpay:
     raw.RAZORPAY_KEY_ID !== PLACEHOLDER_RAZORPAY_KEY_ID &&
