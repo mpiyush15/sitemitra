@@ -115,7 +115,13 @@ const s3PublicBaseUrl =
 function parseCorsOriginList(value: string): string[] {
   return value
     .split(",")
-    .map((o) => o.trim().replace(/^["']|["']$/g, ""))
+    .map((o) =>
+      o
+        .trim()
+        .replace(/^["']|["']$/g, "") // strip surrounding quotes
+        .toLowerCase() // normalise case
+        .replace(/\/+$/, ""), // strip trailing slashes
+    )
     .filter(Boolean);
 }
 
