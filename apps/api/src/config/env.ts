@@ -65,6 +65,18 @@ if (isProd) {
     console.error(`Missing required production env: ${missing.join(", ")}`);
     process.exit(1);
   }
+
+  const cors = raw.CORS_ORIGIN.toLowerCase();
+  if (cors.includes("localhost") || cors.includes("127.0.0.1")) {
+    console.warn(
+      "[env] CORS_ORIGIN still points at localhost — set to your Vercel URL in production",
+    );
+  }
+  if (raw.API_URL.includes("localhost") || raw.API_URL.includes("127.0.0.1")) {
+    console.warn(
+      "[env] API_URL still points at localhost — set to your Railway public URL in production",
+    );
+  }
 }
 
 function normalizeS3Prefix(prefix: string): string {

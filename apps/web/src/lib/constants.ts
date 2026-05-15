@@ -1,22 +1,14 @@
+import { publicEnv } from "@/lib/env";
+
 export const SITE_NAME = "Site Mitra";
 export const SITE_TAGLINE = "Right People for Every Site.";
 export const SITE_PLATFORM_LINE = "One platform. All solutions.";
 
-export const SITE_OFFICE = "Akola, Maharashtra, India";
+export const SITE_OFFICE = publicEnv.office;
 export const LAUNCH_CITIES = ["Akola", "Amravati"] as const;
 
-/** Placeholders until client shares contact details */
-export const SITE_CONTACT = {
-  email: "contact@sitemitra.com",
-  phone: "+91 99999 99999",
-  whatsapp: "+919999999999",
-} as const;
-
-export const SITE_SOCIAL = {
-  instagram: "#",
-  facebook: "#",
-  youtube: "#",
-} as const;
+export const SITE_CONTACT = publicEnv.contact;
+export const SITE_SOCIAL = publicEnv.social;
 
 export const HERO_CONTENT = {
   eyebrow: "India's trusted construction network",

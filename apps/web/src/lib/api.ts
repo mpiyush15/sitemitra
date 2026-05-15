@@ -1,7 +1,8 @@
 import type { ApiError, ApiSuccess } from "@/types/api";
+import { publicEnv } from "@/lib/env";
 import { getStoredToken } from "@/lib/session";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
+const baseUrl = publicEnv.apiBaseUrl;
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;

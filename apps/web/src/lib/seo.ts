@@ -1,6 +1,7 @@
 import { SITE_NAME } from "./constants";
+import { isLocalhostUrl, publicEnv } from "./env";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = publicEnv.siteUrl;
 
 function normalizeBase(url: string) {
   return url.replace(/\/$/, "");
@@ -20,12 +21,9 @@ export function getBusinessProfileShareUrl(slug: string, browserOrigin?: string)
   const segment = encodeURIComponent(slug);
   const path = `/business/${segment}`;
   const configured = normalizeBase(siteUrl);
-  const isLocalConfigured =
-    configured.includes("localhost") ||
-    configured.includes("127.0.0.1") ||
-    configured.startsWith("http://192.168.");
+  const isLocalConfigured = isLocalhostUrl(configured);
 
-  if (browserOrigin && (isLocalConfigured || !process.env.NEXT_PUBLIC_SITE_URL)) {
+  if (browserOrigin && (isLocalConfigured || !process.env.NEXT_PUBLIC_SITE_URL?.trim())) {
     return joinPath(browserOrigin, path);
   }
 
