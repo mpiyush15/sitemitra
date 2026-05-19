@@ -15,6 +15,8 @@ type SocialLinkFieldsProps = {
   value: SocialLinksFormValue;
   onChange: (key: keyof SocialLinksFormValue, value: string) => void;
   className?: string;
+  /** Hide fields (e.g. facebook locked on Free plan). */
+  exclude?: Array<keyof SocialLinksFormValue>;
 };
 
 const SOCIAL_FIELDS: Array<{
@@ -29,10 +31,14 @@ const SOCIAL_FIELDS: Array<{
   { key: "youtube", label: "YouTube", Icon: FaYoutube, placeholder: "YouTube channel URL" },
 ];
 
-export function SocialLinkFields({ value, onChange, className }: SocialLinkFieldsProps) {
+export function SocialLinkFields({ value, onChange, className, exclude = [] }: SocialLinkFieldsProps) {
+  const fields = SOCIAL_FIELDS.filter((f) => !exclude.includes(f.key));
+
+  if (fields.length === 0) return null;
+
   return (
     <div className={cn("grid gap-3 sm:grid-cols-2", className)}>
-      {SOCIAL_FIELDS.map(({ key, label, Icon, placeholder }) => (
+      {fields.map(({ key, label, Icon, placeholder }) => (
         <div key={key} className="relative">
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2" aria-hidden>
             <Icon className="h-5 w-5 text-accent" />

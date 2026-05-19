@@ -18,7 +18,7 @@ export type RegisterInput = {
   fullName: string;
   email: string;
   password: string;
-  phone?: string;
+  phone: string;
   city?: string;
   role?: Role;
   businessName?: string;

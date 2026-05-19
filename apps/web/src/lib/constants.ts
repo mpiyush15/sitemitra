@@ -20,6 +20,35 @@ export const HERO_CONTENT = {
     "Site Mitra helps users discover trusted engineers, contractors, architects, vendors, and construction businesses in one platform.",
 } as const;
 
+export const ABOUT_CONTENT = {
+  eyebrow: "About Site Mitra",
+  title: "One platform for every construction need",
+  intro:
+    "Site Mitra is a construction networking and business listing platform — helping people find the right professionals and helping businesses get discovered locally.",
+  purpose: {
+    title: "Our purpose",
+    body: "We bring engineers, contractors, architects, material vendors, and specialists onto one trusted directory so discovery is simple, local, and direct — without middlemen for finding the right contact.",
+  },
+  forCustomers: {
+    title: "For homeowners & builders",
+    items: [
+      "Search by city, category, or service — browse for free",
+      "Compare profiles, galleries, ratings, and services",
+      "Contact businesses directly when you are ready",
+      "Focused on Akola and Amravati — relevant local professionals",
+    ],
+  },
+  forProfessionals: {
+    title: "For engineers, contractors & vendors",
+    items: [
+      "Professional listing with photos, services, and contact details",
+      "Get found by homeowners and builders in your city",
+      "Verified badges and Standard plans for premium visibility",
+      "Manage your profile and inquiries from your dashboard",
+    ],
+  },
+} as const;
+
 export const TOP_SEARCHES = [
   { label: "Contractors in Akola", href: "/listings?category=contractors&city=Akola" },
   { label: "Architects in Akola", href: "/listings?category=architects&city=Akola" },
@@ -49,25 +78,48 @@ export const HOW_IT_WORKS_STEPS = [
   },
 ] as const;
 
+export const WHY_CHOOSE_STATS = [
+  { value: "1", suffix: "platform", label: "Every trade connected", detail: "Engineers to vendors" },
+  { value: "2", suffix: "cities", label: "Launch markets", detail: "Akola & Amravati" },
+  { value: "0", suffix: "middlemen", label: "Direct discovery", detail: "Call or WhatsApp" },
+  { value: "100%", suffix: "free browse", label: "For homeowners", detail: "No account to search" },
+] as const;
+
 export const WHY_CHOOSE_ITEMS = [
   {
+    icon: "network" as const,
     title: "One construction network",
+    highlight: "All professionals, one place",
     description:
-      "Engineers, contractors, architects, vendors, and service providers on a single trusted platform.",
+      "Engineers, contractors, architects, material vendors, and specialists — discover and compare without jumping between apps or referrals.",
   },
   {
-    title: "Local focus",
-    description: "Built for Akola and Amravati first — relevant professionals near your project site.",
-  },
-  {
-    title: "Business-ready listings",
-    description: "Verified badges, galleries, and Standard plans help serious businesses stand out.",
-  },
-  {
-    title: "Simple for homeowners",
+    icon: "local" as const,
+    title: "Built for your city",
+    highlight: "Local relevance first",
     description:
-      "Our mission is to make finding the right construction partner clear, fast, and dependable.",
+      "Focused on Akola and Amravati so you find professionals who understand regional projects, suppliers, and site realities.",
   },
+  {
+    icon: "trust" as const,
+    title: "Profiles you can trust",
+    highlight: "Serious businesses stand out",
+    description:
+      "Rich listings with galleries, services, ratings, and verified badges — Standard members get premium visibility and full contact options.",
+  },
+  {
+    icon: "simple" as const,
+    title: "Clear for homeowners",
+    highlight: "Find → compare → connect",
+    description:
+      "Search by category and city, review profiles at your pace, and reach out when you are ready — no complicated onboarding to browse.",
+  },
+] as const;
+
+export const WHY_CHOOSE_TRUST_POINTS = [
+  "Verified & featured listings",
+  "Real business profiles with galleries",
+  "Direct contact — no platform commission on discovery",
 ] as const;
 
 export const HOME_TESTIMONIALS = [
@@ -100,7 +152,7 @@ export const MAIN_NAV = [
   { label: "Professionals", href: "/listings" },
   { label: "Vendors", href: "/listings?category=material-vendors" },
   { label: "Featured", href: "/listings?featured=1" },
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/#contact" },
 ] as const;
 
@@ -145,6 +197,7 @@ export const API_ROUTES = {
   cities: "/cities",
   plans: "/plans",
   banners: "/banners",
+  siteTopbar: "/site-topbar",
   admin: {
     cities: "/admin/cities",
     socialReels: "/admin/social-reels",
@@ -157,6 +210,7 @@ export const API_ROUTES = {
     membership: {
       plans: "/admin/membership/plans",
       paymentSettings: "/admin/membership/payment-settings",
+      siteTopbar: "/admin/membership/site-topbar",
       payments: "/admin/membership/payments",
       businessListing: (businessId: string) =>
         `/admin/membership/businesses/${encodeURIComponent(businessId)}/listing`,

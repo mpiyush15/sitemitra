@@ -9,4 +9,5 @@ export { cityRepository } from "./city.repository.js";
 export { inquiryRepository } from "./inquiry.repository.js";
 export { membershipRepository } from "./membership.repository.js";
 export { paymentSettingsRepository } from "./payment-settings.repository.js";
+export { siteTopbarSettingsRepository } from "./site-topbar-settings.repository.js";
 export { profileViewRepository } from "./profile-view.repository.js";

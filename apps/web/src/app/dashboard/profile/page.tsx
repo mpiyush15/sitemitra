@@ -16,6 +16,7 @@ import {
 } from "@/lib/dashboard";
 import type { ProfileEditFormData } from "@/components/forms/profile-edit-form";
 import type { DashboardBusinessProfileResponse } from "@/lib/dashboard";
+import { isPremiumBusiness } from "@/lib/membership-display";
 
 export default function DashboardProfilePage() {
   const [data, setData] = useState<DashboardBusinessProfileResponse | null>(null);
@@ -43,6 +44,9 @@ export default function DashboardProfilePage() {
   const handleSave = async (formData: ProfileEditFormData) => {
     setStatus("");
     setStatusIsError(false);
+    const isStandard = isPremiumBusiness({
+      membershipType: data?.businessProfile.membershipType,
+    });
     try {
       let result = data!;
 
@@ -70,9 +74,12 @@ export default function DashboardProfilePage() {
         whatsappNumber: formData.whatsappNumber,
         phoneNumber: formData.phoneNumber,
         email: formData.email,
-        website: formData.website,
+        website: isStandard ? formData.website : "",
         services: formData.services,
-        socialLinks: formData.socialLinks,
+        socialLinks: {
+          ...formData.socialLinks,
+          facebook: isStandard ? formData.socialLinks?.facebook ?? "" : "",
+        },
         gallery: formData.gallery,
       });
 

@@ -53,14 +53,20 @@ export async function fetchFeaturedBusinesses(limit = 8): Promise<BusinessCard[]
 
 export async function fetchBusinesses(params: {
   category?: string;
+  profession?: string;
+  categoryType?: "professional" | "vendor";
   city?: string;
+  experience?: string;
   q?: string;
   page?: number;
   limit?: number;
 }): Promise<PaginatedBusinesses> {
   const search = new URLSearchParams();
   if (params.category) search.set("category", params.category);
+  if (params.profession) search.set("profession", params.profession);
+  if (params.categoryType) search.set("categoryType", params.categoryType);
   if (params.city) search.set("city", params.city);
+  if (params.experience) search.set("experience", params.experience);
   if (params.q) search.set("q", params.q);
   if (params.page) search.set("page", String(params.page));
   if (params.limit) search.set("limit", String(params.limit));

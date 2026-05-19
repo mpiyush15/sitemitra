@@ -110,7 +110,12 @@ export function toBusinessDetail(
     logo: isPremium ? base.logo : "",
     thumbnail: isPremium ? base.thumbnail : "",
     profileBanner: isPremium ? base.profileBanner : "",
-    gallery: isPremium ? base.gallery : [],
+    gallery: base.gallery,
+    website: isPremium ? base.website : "",
+    socialLinks: {
+      ...base.socialLinks,
+      facebook: isPremium ? base.socialLinks.facebook : "",
+    },
     services: isPremium ? base.services : [],
     experience: isPremium ? base.experience : "",
     reviews: extras.reviews.map(toPublicReview),

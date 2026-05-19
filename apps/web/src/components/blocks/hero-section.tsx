@@ -18,10 +18,17 @@ export function HeroSection() {
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/70 to-primary/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/75 to-primary/90" />
 
-      <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-4xl space-y-5 text-center text-white">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-3 pb-14 pt-10 sm:px-4 sm:pb-16 sm:pt-12 lg:px-8 lg:pb-20 lg:pt-14">
+        <div className="w-full">
+          <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wider text-white/75 sm:text-left sm:text-xs">
+            Search professionals
+          </p>
+          <HeroSearchBar />
+        </div>
+
+        <div className="mx-auto mt-7 flex max-w-4xl flex-1 flex-col justify-center space-y-5 text-center text-white sm:mt-9 lg:mt-11">
           <p className="text-sm font-medium uppercase tracking-widest text-white/85 sm:text-base">
             {HERO_CONTENT.eyebrow}
           </p>
@@ -46,10 +53,6 @@ export function HeroSection() {
               </Button>
             </Link>
           </div>
-        </div>
-
-        <div className="mx-auto mt-10 w-full max-w-5xl lg:mt-14">
-          <HeroSearchBar />
         </div>
       </div>
     </section>

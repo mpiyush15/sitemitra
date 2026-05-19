@@ -51,9 +51,18 @@ export const businessService = {
       if (bySlug) category = bySlug.categoryName;
     }
 
+    let profession = query.profession;
+    if (profession) {
+      const bySlug = await categoryRepository.findBySlug(profession);
+      if (bySlug) profession = bySlug.categoryName;
+    }
+
     const { items, total } = await businessProfileRepository.list({
       category,
+      profession,
+      categoryType: query.categoryType,
       city: parsed.city ?? query.city,
+      experience: query.experience,
       q: parsed.q,
       skip,
       limit,

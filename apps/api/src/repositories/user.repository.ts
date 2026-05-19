@@ -6,6 +6,11 @@ export const userRepository = {
     return UserModel.findOne({ email: email.toLowerCase() });
   },
 
+  findByPhone(phone: string) {
+    if (!phone) return null;
+    return UserModel.findOne({ phone });
+  },
+
   findByEmailWithPassword(email: string) {
     return UserModel.findOne({ email: email.toLowerCase() }).select("+passwordHash");
   },

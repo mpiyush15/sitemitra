@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AboutSection } from "@/components/blocks/about-section";
 import { BestServicesSection } from "@/components/blocks/best-services-section";
 import { BusinessListingsSection } from "@/components/blocks/business-listings-section";
 import { CategoryGrid } from "@/components/blocks/category-grid";
@@ -14,12 +15,7 @@ import { TestimonialsSection } from "@/components/blocks/testimonials-section";
 import { TopSearchesSection } from "@/components/blocks/top-searches-section";
 import { VendorShowcase } from "@/components/blocks/vendor-showcase";
 import { WhyChooseSection } from "@/components/blocks/why-choose-section";
-import {
-  HERO_CONTENT,
-  HOME_TESTIMONIALS,
-  SITE_NAME,
-  SITE_TAGLINE,
-} from "@/lib/constants";
+import { HOME_TESTIMONIALS, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { resolveCategories } from "@/lib/categories";
 import { fetchFeaturedBusinesses, fetchBusinesses, fetchPopularSearchBlocks, fetchSocialReels, fetchTrendingSearches } from "@/lib/public";
 import { buildPageTitle, getSiteUrl } from "@/lib/seo";
@@ -55,14 +51,6 @@ export default async function HomePage() {
       <HeroSection />
       <SearchPlatformHero />
 
-      <section id="about" className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-7xl px-4 py-10 text-center sm:px-6 lg:px-8">
-          <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-lg">
-            {HERO_CONTENT.promo}
-          </p>
-        </div>
-      </section>
-
       <section className={sectionWrap}>
         <div className="mb-8 flex flex-col items-center gap-3 text-center sm:flex-row sm:items-end sm:justify-between sm:gap-4 sm:text-left">
           <div className="w-full sm:w-auto">
@@ -87,9 +75,7 @@ export default async function HomePage() {
         <TopSearchesSection trending={trending} />
       </section>
 
-      <section className={sectionWrap}>
-        <FeaturedSection businesses={featured} />
-      </section>
+      <FeaturedSection businesses={featured} />
 
       <section className={`${sectionWrap} border-t border-border`}>
         <BusinessListingsSection businesses={listings.items} />
@@ -107,9 +93,9 @@ export default async function HomePage() {
         <HowItWorksSection />
       </section>
 
-      <section className={sectionWrap}>
-        <WhyChooseSection />
-      </section>
+      <AboutSection />
+
+      <WhyChooseSection />
 
       <section className={`${sectionWrap} bg-muted/20`}>
         <TestimonialsSection items={[...HOME_TESTIMONIALS]} />

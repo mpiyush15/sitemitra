@@ -14,3 +14,7 @@ export { SavedBusinessModel, type SavedBusinessDocument } from "./saved-business
 export { CatalogueModel, type CatalogueDocument } from "./catalogue.model.js";
 export { BannerModel, type BannerDocument } from "./banner.model.js";
 export { SocialReelModel, type SocialReelDocument } from "./social-reel.model.js";
+export {
+  SiteTopbarSettingsModel,
+  type SiteTopbarSettingsDocument,
+} from "./site-topbar-settings.model.js";

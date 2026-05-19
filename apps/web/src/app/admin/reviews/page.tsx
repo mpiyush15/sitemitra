@@ -5,7 +5,10 @@ export default function AdminReviewsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-primary">Reviews</h2>
-        <p className="text-sm text-muted-foreground">Moderate pending customer reviews.</p>
+        <p className="text-sm text-muted-foreground">
+          All customer reviews appear here. Hide reviews from public profiles or delete them
+          permanently.
+        </p>
       </div>
       <ReviewsAdminPanel />
     </div>

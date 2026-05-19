@@ -21,6 +21,8 @@ export type AdminBusinessRow = {
 export type AdminReviewRow = {
   id: string;
   businessId: string;
+  businessName: string;
+  businessSlug: string;
   customerName: string;
   rating: number;
   reviewText: string;
@@ -101,6 +103,12 @@ export async function moderateAdminReview(id: string, isApproved: boolean) {
   return apiFetch(`${API_ROUTES.admin.reviews}/${id}`, {
     method: "PATCH",
     body: { isApproved },
+  });
+}
+
+export async function deleteAdminReview(id: string) {
+  return apiFetch(`${API_ROUTES.admin.reviews}/${id}`, {
+    method: "DELETE",
   });
 }
 

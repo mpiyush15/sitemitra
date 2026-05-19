@@ -8,7 +8,7 @@ import {
 } from "react-icons/hi2";
 import type { ListingsSearchFilters } from "@/lib/listings-search";
 import { buildBusinessProfileUrl } from "@/lib/listings-search";
-import { telUrl } from "@/lib/public";
+import { GatedCallAction } from "@/components/business/gated-call-action";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
 import { showPublicVerifiedBadge } from "@/lib/membership-display";
@@ -232,14 +232,10 @@ export function BusinessListingRow({
             )}
           >
             {business.phoneNumber ? (
-              <Link
-                href={telUrl(business.phoneNumber)}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 lg:min-w-[140px] lg:px-5"
-              >
-                <HiOutlinePhone className="h-4 w-4" aria-hidden />
-                <span className="lg:hidden">Call</span>
-                <span className="hidden lg:inline">{business.phoneNumber}</span>
-              </Link>
+              <GatedCallAction
+                phone={business.phoneNumber}
+                className="lg:min-w-[140px] lg:px-5"
+              />
             ) : null}
             <Link
               href={profileHref}

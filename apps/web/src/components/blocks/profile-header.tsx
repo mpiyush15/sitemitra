@@ -1,7 +1,10 @@
 import { ContactActions } from "@/components/blocks/contact-actions";
 import { RatingStars } from "@/components/ui/rating-stars";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
-import { showPublicVerifiedBadge } from "@/lib/membership-display";
+import {
+  showPublicBusinessWhatsApp,
+  showPublicVerifiedBadge,
+} from "@/lib/membership-display";
 import { AppImage } from "@/components/ui/app-image";
 import type { BusinessDetail } from "@/types/api";
 
@@ -16,6 +19,7 @@ type ProfileHeaderProps = {
     | "membershipType"
     | "verificationBadge"
     | "isFeatured"
+    | "isPremium"
     | "rating"
     | "totalReviews"
     | "whatsappNumber"
@@ -54,6 +58,7 @@ export function ProfileHeader({ business }: ProfileHeaderProps) {
         <ContactActions
           whatsappNumber={business.whatsappNumber}
           phoneNumber={business.phoneNumber}
+          showWhatsApp={showPublicBusinessWhatsApp(business)}
           business={{
             businessName: business.businessName,
             category: business.category,

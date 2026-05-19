@@ -6,6 +6,8 @@ import { cn } from "@/lib/cn";
 type ContactActionsProps = {
   whatsappNumber?: string;
   phoneNumber?: string;
+  /** Free plan: hide WhatsApp on public profile */
+  showWhatsApp?: boolean;
   business?: BusinessInquiryDetails;
   inquiryContext?: SearchInquiryContext;
   className?: string;
@@ -14,11 +16,14 @@ type ContactActionsProps = {
 export function ContactActions({
   whatsappNumber,
   phoneNumber,
+  showWhatsApp = true,
   business,
   inquiryContext,
   className,
 }: ContactActionsProps) {
-  if (!whatsappNumber && !phoneNumber) {
+  const whatsappVisible = showWhatsApp && Boolean(whatsappNumber);
+
+  if (!whatsappVisible && !phoneNumber) {
     return (
       <p className={cn("text-sm text-muted-foreground", className)}>
         Contact details not available.
@@ -28,9 +33,9 @@ export function ContactActions({
 
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
-      {whatsappNumber ? (
+      {whatsappVisible ? (
         <WhatsAppButton
-          phone={whatsappNumber}
+          phone={whatsappNumber!}
           business={business}
           inquiryContext={inquiryContext}
         />

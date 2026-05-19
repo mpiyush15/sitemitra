@@ -68,26 +68,44 @@ export const adminService = {
   },
 
   async listReviews() {
-    const reviews = await reviewRepository.findPending();
-    return reviews.map((review) => ({
-      id: review._id.toString(),
-      businessId: review.businessId.toString(),
-      customerName: review.customerName,
-      rating: review.rating,
-      reviewText: review.reviewText ?? "",
-      isApproved: review.isApproved,
-      createdAt: review.createdAt,
-    }));
+    const reviews = await reviewRepository.findAllForAdmin();
+    return reviews.map((review) => {
+      const business = review.businessId as
+        | { _id?: { toString(): string }; businessName?: string; slug?: string }
+        | null;
+      const businessId =
+        business && typeof business === "object" && "_id" in business && business._id
+          ? business._id.toString()
+          : String(review.businessId);
+      return {
+        id: review._id.toString(),
+        businessId,
+        businessName: business?.businessName ?? "Unknown business",
+        businessSlug: business?.slug ?? "",
+        customerName: review.customerName,
+        rating: review.rating,
+        reviewText: review.reviewText ?? "",
+        isApproved: review.isApproved,
+        createdAt: review.createdAt,
+      };
+    });
   },
 
   async moderateReview(id: string, isApproved: boolean) {
     const review = await reviewRepository.updateApproval(id, isApproved);
-    if (!review) return null;
+    if (!review) throw new NotFoundError("Review not found");
     await reviewRepository.syncBusinessRating(review.businessId.toString());
     return {
       id: review._id.toString(),
       isApproved: review.isApproved,
     };
+  },
+
+  async deleteReview(id: string) {
+    const review = await reviewRepository.deleteById(id);
+    if (!review) throw new NotFoundError("Review not found");
+    await reviewRepository.syncBusinessRating(review.businessId.toString());
+    return { id: review._id.toString() };
   },
 
   async listBanners() {

@@ -1,4 +1,4 @@
-import { BusinessListingCard } from "@/components/blocks/business-listing-card";
+import { FeaturedListingCard } from "@/components/blocks/featured-listing-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/cn";
 import type { BusinessCard } from "@/types/api";
@@ -22,8 +22,8 @@ export function FeaturedCarousel({ businesses, className }: FeaturedCarouselProp
   return (
     <div className={cn("flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory", className)}>
       {businesses.map((business) => (
-        <div key={business.id} className="min-w-[280px] snap-start">
-          <BusinessListingCard business={business} />
+        <div key={business.id} className="min-w-[300px] snap-start">
+          <FeaturedListingCard business={business} />
         </div>
       ))}
     </div>

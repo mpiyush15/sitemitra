@@ -1,4 +1,5 @@
 import { ForbiddenError, NotFoundError } from "../lib/errors.js";
+import { MEMBERSHIP_PLANS } from "../lib/constants.js";
 import { getProfileCompletion } from "../lib/profile-completion.js";
 import { slugify, uniqueSlug } from "../lib/slug.js";
 import { toSafeBusinessProfile } from "../lib/serializers.js";
@@ -47,6 +48,16 @@ export const dashboardService = {
     const update: Parameters<typeof businessProfileRepository.updateByUserId>[1] = {
       ...input,
     };
+
+    const isStandard = profile.membershipType === MEMBERSHIP_PLANS.STANDARD;
+    if (!isStandard) {
+      update.website = "";
+      if (update.socialLinks) {
+        update.socialLinks = { ...update.socialLinks, facebook: "" };
+      } else if (input.socialLinks) {
+        update.socialLinks = { ...input.socialLinks, facebook: "" };
+      }
+    }
 
     // Media URLs are set only via multipart upload routes — never clear with empty PATCH values.
     for (const field of ["logo", "thumbnail", "profileBanner"] as const) {

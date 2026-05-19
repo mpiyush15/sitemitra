@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export const businessListQuerySchema = z.object({
   category: z.string().trim().optional(),
+  profession: z.string().trim().optional(),
+  categoryType: z.enum(["professional", "vendor"]).optional(),
   city: z.string().trim().optional(),
+  experience: z.string().trim().optional(),
   q: z.string().trim().optional(),
   page: z.coerce.number().int().positive().optional(),
   limit: z.coerce.number().int().positive().max(50).optional(),

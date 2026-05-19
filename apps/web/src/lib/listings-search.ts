@@ -2,7 +2,10 @@ import { slugToLabel } from "@/lib/seo";
 
 export type ListingsSearchFilters = {
   category?: string;
+  profession?: string;
+  categoryType?: "professional" | "vendor";
   city?: string;
+  experience?: string;
   q?: string;
   page?: number;
   featured?: boolean;
@@ -11,7 +14,10 @@ export type ListingsSearchFilters = {
 export function buildListingsSearchUrl(filters: ListingsSearchFilters): string {
   const params = new URLSearchParams();
   if (filters.category) params.set("category", filters.category);
+  if (filters.profession) params.set("profession", filters.profession);
+  if (filters.categoryType) params.set("categoryType", filters.categoryType);
   if (filters.city) params.set("city", filters.city);
+  if (filters.experience) params.set("experience", filters.experience);
   if (filters.q) params.set("q", filters.q);
   if (filters.page && filters.page > 1) params.set("page", String(filters.page));
   if (filters.featured) params.set("featured", "1");
@@ -110,5 +116,13 @@ export function getListingsHeading(
 }
 
 export function hasActiveFilters(filters: ListingsSearchFilters): boolean {
-  return Boolean(filters.category || filters.city || filters.q);
+  return Boolean(
+    filters.category ||
+      filters.profession ||
+      filters.categoryType ||
+      filters.city ||
+      filters.experience ||
+      filters.q ||
+      filters.featured,
+  );
 }

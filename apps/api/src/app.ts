@@ -17,6 +17,7 @@ import {
 import { adminCityRouter, cityRouter } from "./routes/cities.js";
 import { adminSocialReelRouter, socialReelRouter } from "./routes/social-reels.js";
 import { bannersPublicRouter } from "./routes/banners-public.js";
+import { siteTopbarPublicRouter } from "./routes/site-topbar-public.js";
 import { healthRouter } from "./routes/health.js";
 import { searchRouter } from "./routes/search.js";
 import { customerRouter } from "./routes/customer.js";
@@ -112,6 +113,7 @@ export function createApp() {
   app.use("/api/cities", cityRouter);
   app.use("/api/plans", plansRouter);
   app.use("/api/banners", bannersPublicRouter);
+  app.use("/api/site-topbar", siteTopbarPublicRouter);
   app.use("/api/admin", adminPlatformRouter);
   app.use("/api/admin/membership", adminMembershipRouter);
   app.use("/api/admin/analytics", adminAnalyticsRouter);

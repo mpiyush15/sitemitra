@@ -27,6 +27,8 @@ import {
   updatePaymentSettingsSchema,
   updatePlanSchema,
 } from "../validators/membership.validator.js";
+import { updateSiteTopbarSchema } from "../validators/site-topbar.validator.js";
+import { siteTopbarService } from "../services/site-topbar.service.js";
 import {
   bannerCreateFormSchema,
   bannerIdParamSchema,
@@ -124,7 +126,19 @@ adminPlatformRouter.patch(
     const { id } = getValidatedParams<{ id: string }>(req);
     const { isApproved } = getValidatedBody<z.infer<typeof moderateReviewSchema>>(req);
     const result = await adminService.moderateReview(id, isApproved);
-    return sendSuccess(res, result, { message: isApproved ? "Review approved" : "Review rejected" });
+    return sendSuccess(res, result, {
+      message: isApproved ? "Review is visible on the profile" : "Review hidden from public profile",
+    });
+  }),
+);
+
+adminPlatformRouter.delete(
+  "/reviews/:id",
+  validate(reviewIdParamSchema, "params"),
+  asyncHandler(async (req, res) => {
+    const { id } = getValidatedParams<{ id: string }>(req);
+    const result = await adminService.deleteReview(id);
+    return sendSuccess(res, result, { message: "Review deleted permanently" });
   }),
 );
 
@@ -156,6 +170,23 @@ adminMembershipRouter.patch(
     const body = getValidatedBody<z.infer<typeof updatePlanSchema>>(req);
     const plan = await membershipService.updatePlan(slug, body);
     return sendSuccess(res, plan, { message: "Plan updated" });
+  }),
+);
+
+adminMembershipRouter.get(
+  "/site-topbar",
+  asyncHandler(async (_req, res) => {
+    return sendSuccess(res, await siteTopbarService.getAdmin());
+  }),
+);
+
+adminMembershipRouter.patch(
+  "/site-topbar",
+  validate(updateSiteTopbarSchema),
+  asyncHandler(async (req, res) => {
+    const body = getValidatedBody<z.infer<typeof updateSiteTopbarSchema>>(req);
+    const settings = await siteTopbarService.update(body);
+    return sendSuccess(res, settings, { message: "Top bar saved" });
   }),
 );
 

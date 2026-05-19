@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { FeaturedListingCard } from "@/components/blocks/featured-listing-card";
 import { ListingsGrid } from "@/components/blocks/listings-grid";
-import { ListingsQuickFilters } from "@/components/blocks/listings-quick-filters";
+import { ListingsFilterBar } from "@/components/blocks/listings-filter-bar";
 import { ListingsPagination } from "@/components/blocks/listings-pagination";
 import { ListingsPageSearch } from "@/components/blocks/listings-page-search";
 import { ListingsPageSearchBridge } from "@/components/blocks/listings-page-search-bar";
@@ -20,7 +21,10 @@ import { buildPageTitle, slugToLabel } from "@/lib/seo";
 type ListingsPageProps = {
   searchParams: Promise<{
     category?: string;
+    profession?: string;
+    categoryType?: string;
     city?: string;
+    experience?: string;
     q?: string;
     page?: string;
     featured?: string;
@@ -39,9 +43,17 @@ export async function generateMetadata({ searchParams }: ListingsPageProps): Pro
 export default async function ListingsPage({ searchParams }: ListingsPageProps) {
   const params = await searchParams;
   const page = Number(params.page) || 1;
+  const categoryType =
+    params.categoryType === "professional" || params.categoryType === "vendor"
+      ? params.categoryType
+      : undefined;
+
   const filters: ListingsSearchFilters = {
     category: params.category,
+    profession: params.profession,
+    categoryType,
     city: params.city,
+    experience: params.experience,
     q: params.q,
     page,
     featured: params.featured === "1",
@@ -57,7 +69,10 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
         }
       : fetchBusinesses({
           category: params.category,
+          profession: params.profession,
+          categoryType,
           city: params.city,
+          experience: params.experience,
           q: params.q,
           page,
         }),
@@ -93,17 +108,20 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
               <ListingsPageSearch
                 cities={cityNames}
                 defaultQuery={params.q}
-                defaultCategory={params.category}
+                defaultCategory={params.category ?? params.profession}
                 defaultCity={params.city}
               />
             </div>
+          </div>
 
-            <ListingsQuickFilters
+          {!filters.featured ? (
+            <ListingsFilterBar
               filters={filters}
               cities={cityNames}
-              className="shrink-0 lg:max-w-none lg:border-l lg:border-border lg:pl-8"
+              categories={categories}
             />
-          </div>
+          ) : null}
+
           <ListingsPageSearchBridge />
         </div>
       </section>
@@ -112,16 +130,24 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
             <div className="min-w-0 space-y-4">
-              <ListingsGrid
-                businesses={result.items}
-                searchFilters={{
-                  q: params.q,
-                  category: params.category,
-                  city: params.city,
-                }}
-                showFeaturedBadge={filters.featured}
-                showVerifiedBadge={!filters.featured}
-              />
+              {filters.featured ? (
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  {result.items.map((business) => (
+                    <FeaturedListingCard key={business.id} business={business} />
+                  ))}
+                </div>
+              ) : (
+                <ListingsGrid
+                  businesses={result.items}
+                  searchFilters={{
+                    q: params.q,
+                    category: params.category,
+                    city: params.city,
+                  }}
+                  showFeaturedBadge={filters.featured}
+                  showVerifiedBadge={!filters.featured}
+                />
+              )}
 
               {!filters.featured ? (
                 <ListingsPagination

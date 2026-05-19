@@ -1,6 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { HiOutlineLockClosed } from "react-icons/hi2";
 import { InquiryForm } from "@/components/forms/inquiry-form";
+import { useAuthModal } from "@/components/layout/auth-modal-provider";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getStoredToken } from "@/lib/session";
 
 type BusinessEnquiryCardProps = {
   businessSlug: string;
@@ -23,20 +28,35 @@ export function BusinessEnquiryCard({
   businessName,
   defaultCity,
 }: BusinessEnquiryCardProps) {
+  const { openAuth } = useAuthModal();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Boolean(getStoredToken()));
+  }, []);
+
   return (
     <Card className="min-w-0 overflow-hidden">
       <CardHeader className={cardHeaderClass}>
         <CardTitle>Send enquiry</CardTitle>
         <CardDescription>
-          Share your details and requirement. This goes only to {businessName}&apos;s
-          dashboard.
+          Share your details and requirement. This goes only to {businessName}&apos;s dashboard.
         </CardDescription>
       </CardHeader>
       <CardContent className={cardContentClass}>
-        <InquiryForm
-          businessSlug={businessSlug}
-          defaultCity={defaultCity}
-        />
+        {isLoggedIn ? (
+          <InquiryForm businessSlug={businessSlug} defaultCity={defaultCity} />
+        ) : (
+          <div className="space-y-3 py-4 text-center">
+            <HiOutlineLockClosed className="mx-auto h-7 w-7 text-accent" aria-hidden />
+            <p className="text-sm text-muted-foreground">
+              Log in or sign up to send an enquiry to this business.
+            </p>
+            <Button type="button" className="w-full sm:w-auto" onClick={() => openAuth("login")}>
+              Log in / Sign up
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -1,12 +1,28 @@
 # Site Mitra — Dev Progress Log
 
-> **Current stable: Site Mitra v1.1.0** (15 May 2026)  
-> **Previous stable: v1.0.0** (14 May 2026)  
-> **Next (v1.2):** platform banners on listings page, stricter plan gating, Razorpay live, reviews/catalogue uploads
+> **Current stable: Site Mitra v1.2.0** (18 May 2026)  
+> **Previous stable: v1.1.0** (15 May 2026)  
+> **Before that: v1.0.0** (14 May 2026)  
+> **Next (v1.3):** listings-page platform banners, Razorpay production, catalogue file uploads
 
 ---
 
-## v1.1.0 — Current stable (what ships now)
+## v1.2.0 — Current stable (what ships now)
+
+| Area | Included |
+|------|----------|
+| **Customer reviews** | Logged-in customers post reviews; live on profile immediately |
+| **Admin reviews** | Super Admin / Admin: list all reviews, filter Live/Hidden, hide from profile or delete |
+| **Auth security** | One Indian mobile number per account; email still unique; normalized `+91` formats |
+| **Top bar (public)** | Orange strip: social icons (always visible), centered **Call us + number** (tap-to-call), email + WhatsApp icons |
+| **Top bar (admin)** | Super Admin editor at `/admin/topbar` — two-column form; blank social URLs save as `#` |
+| **Everything from v1.1.0** | S3 media, hero banners, listings thumbnails, etc. — see below |
+
+**Not in v1.2.0** (planned v1.3+): platform banners on `/listings`, mid-grid promos, Razorpay production, catalogue file uploads.
+
+---
+
+## v1.1.0 — Previous stable
 
 | Area | Included |
 |------|----------|
@@ -17,11 +33,11 @@
 | **Env** | `AWS_*`, `S3_BUCKET_NAME`, `S3_PREFIX`, `S3_PUBLIC_BASE_URL` on API |
 | **Everything from v1.0.0** | See below — still included |
 
-**Not in v1.1.0** (planned v1.2+): admin banners on `/listings`, mid-grid promo slots, batch enquiry, Razorpay production, catalogue file uploads, full reviews CMS.
+**Was not in v1.1.0** (added in v1.2.0): customer reviews, admin review moderation, mobile uniqueness on signup, configurable site top bar.
 
 ---
 
-## v1.0.0 — Previous stable (baseline before media work)
+## v1.0.0 — Baseline (before media work)
 
 | Area | Included |
 |------|----------|
@@ -55,7 +71,8 @@
 | Day 3 — Dashboard + inquiries (API) | Done (v1.0) | Enquiries + analytics APIs |
 | Business profile media (S3) | Done (v1.1) | Logo, thumbnail, banner, gallery |
 | Hero banners (S3) | Done (v1.1) | Super Admin + homepage carousel |
-| Day 4 — Razorpay + membership | **v1.2** | Plans admin, assign plan, payment settings live |
+| Day 4 — Razorpay + membership | **v1.3** | Plans admin exists; Razorpay production still pending |
+| Reviews + top bar + auth hardening | Done (v1.2) | Customer reviews, admin moderation, mobile uniqueness, top bar CMS |
 | Day 5 — Polish + hardening | Not started | |
 
 ---
@@ -209,5 +226,6 @@ Based on `site-mitra-details.txt` + reference UI (mobile-first).
 | 14 May 2026 | Super admin seeded; `/admin` platform dashboard shell + role-based routing |
 | 14 May 2026 | Platform admin layout — TailAdmin-style sidebar/topbar, RBAC nav, glass active tabs |
 | 14 May 2026 | **Site Mitra v1.0.0** (previous stable) — listings, smart search, enquiries, analytics, reels, mobile UX |
-| 15 May 2026 | **Site Mitra v1.1.0** (current stable) — S3 uploads, hero banners, business logo + listing thumbnail (400×400) + profile banner (1080×480) + gallery |
-| 15 May 2026 | **Next (v1.2):** listings-page banners, plan gating polish, Razorpay, reviews/catalogue uploads |
+| 15 May 2026 | **Site Mitra v1.1.0** — S3 uploads, hero banners, business logo + listing thumbnail (400×400) + profile banner (1080×480) + gallery |
+| 18 May 2026 | **Site Mitra v1.2.0** (current stable) — customer reviews, admin review hide/delete, one-mobile-per-account, super admin top bar editor |
+| 18 May 2026 | **Next (v1.3):** listings-page banners, Razorpay production, catalogue uploads |

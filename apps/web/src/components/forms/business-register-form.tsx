@@ -52,6 +52,10 @@ export function BusinessRegisterForm({
     e.preventDefault();
     setError("");
     if (!form.fullName.trim() || !form.email.trim() || form.password.length < 8) return;
+    if (form.phone.replace(/\D/g, "").length < 10) {
+      setError("Enter a valid 10-digit mobile number.");
+      return;
+    }
     setStep(2);
   };
 
@@ -65,7 +69,7 @@ export function BusinessRegisterForm({
       email: form.email.trim(),
       password: form.password,
       role: ROLES.BUSINESS,
-      ...(form.phone.trim() ? { phone: form.phone.trim() } : {}),
+      phone: form.phone.trim(),
       ...(form.businessName.trim()
         ? {
             businessName: form.businessName.trim(),
@@ -148,13 +152,16 @@ export function BusinessRegisterForm({
             />
           </FormField>
 
-          <FormField label="Phone" htmlFor="reg-phone">
+          <FormField label="Mobile number" htmlFor="reg-phone">
             <Input
               id="reg-phone"
               type="tel"
+              autoComplete="tel"
               value={form.phone}
               onChange={set("phone")}
-              placeholder="+91..."
+              placeholder="10-digit mobile"
+              required
+              minLength={10}
               className="h-10"
             />
           </FormField>

@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { LogoUploader } from "@/components/dashboard/logo-uploader";
+import { PlanUpgradeLock } from "@/components/dashboard/plan-upgrade-lock";
 import { ProfileBannerUploader } from "@/components/dashboard/profile-banner-uploader";
 import { ThumbnailUploader } from "@/components/dashboard/thumbnail-uploader";
 import {
@@ -18,6 +19,7 @@ import { SlugPreview } from "@/components/business/slug-preview";
 import { SocialLinkFields } from "@/components/forms/social-link-fields";
 import { Spinner } from "@/components/ui/spinner";
 import { useCategories } from "@/hooks/use-categories";
+import { isPremiumBusiness } from "@/lib/membership-display";
 import type { SafeBusinessProfile } from "@/types/api";
 
 export type ProfileEditFormData = Partial<SafeBusinessProfile> & {
@@ -33,6 +35,7 @@ type ProfileEditFormProps = {
 };
 
 export function ProfileEditForm({ initial = {}, onSubmit }: ProfileEditFormProps) {
+  const isStandard = isPremiumBusiness({ membershipType: initial.membershipType });
   const { categories } = useCategories();
   const [form, setForm] = useState({
     businessName: initial.businessName ?? "",
@@ -79,9 +82,9 @@ export function ProfileEditForm({ initial = {}, onSubmit }: ProfileEditFormProps
         whatsappNumber: form.whatsappNumber,
         phoneNumber: form.phoneNumber,
         email: form.email,
-        website: form.website,
+        website: isStandard ? form.website : "",
         socialLinks: {
-          facebook: form.facebook,
+          facebook: isStandard ? form.facebook : "",
           instagram: form.instagram,
           linkedin: form.linkedin,
           youtube: form.youtube,
@@ -184,13 +187,28 @@ export function ProfileEditForm({ initial = {}, onSubmit }: ProfileEditFormProps
               placeholder="contact@yourbusiness.com"
             />
           </FormField>
-          <FormField label="Website" htmlFor="pe-web">
-            <Input id="pe-web" value={form.website} onChange={set("website")} placeholder="https://" />
-          </FormField>
+
+          {isStandard ? (
+            <FormField label="Website" htmlFor="pe-web">
+              <Input id="pe-web" value={form.website} onChange={set("website")} placeholder="https://" />
+            </FormField>
+          ) : (
+            <PlanUpgradeLock
+              title="Website link"
+              description="Add your business website on the Standard plan."
+            />
+          )}
 
           <div className="space-y-3 border-t border-border pt-4">
             <h4 className="text-sm font-semibold text-foreground">Social links</h4>
+            {!isStandard ? (
+              <PlanUpgradeLock
+                title="Facebook link"
+                description="Connect your Facebook page with a Standard listing."
+              />
+            ) : null}
             <SocialLinkFields
+              exclude={isStandard ? [] : ["facebook"]}
               value={{
                 facebook: form.facebook,
                 instagram: form.instagram,
@@ -225,7 +243,7 @@ export function ProfileEditForm({ initial = {}, onSubmit }: ProfileEditFormProps
 
             <FormField
               label="Gallery images"
-              hint="Up to 10 project photos. Grid adjusts to how many you upload."
+              hint="Up to 10 project photos. Shown on your public profile."
             >
               <GalleryUploader
                 existingUrls={initial.gallery}
@@ -242,7 +260,7 @@ export function ProfileEditForm({ initial = {}, onSubmit }: ProfileEditFormProps
           {loading ? <Spinner size="sm" /> : "Save profile"}
         </Button>
         <p className="text-xs text-muted-foreground">
-          Logo, thumbnail, banner, and gallery upload when you save.
+          Logo, banner, and gallery upload when you save.
         </p>
       </div>
     </form>

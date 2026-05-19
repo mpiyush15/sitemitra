@@ -9,6 +9,7 @@ import { getSiteUrl } from "@/lib/seo";
 type BusinessContactActionsProps = {
   whatsappNumber?: string;
   phoneNumber?: string;
+  showWhatsApp?: boolean;
   businessName?: string;
   slug?: string;
   category?: string;

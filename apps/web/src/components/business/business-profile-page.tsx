@@ -2,12 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  HiCheckBadge,
-  HiOutlineMapPin,
-  HiOutlinePhone,
-  HiStar,
-} from "react-icons/hi2";
+import { HiOutlineMapPin, HiStar } from "react-icons/hi2";
 import { BusinessContactActions } from "@/components/blocks/business-contact-actions";
 import { BusinessEnquiryCard } from "@/components/blocks/business-enquiry-card";
 import { GalleryGrid } from "@/components/blocks/gallery-grid";
@@ -15,14 +10,25 @@ import { ServicesTags } from "@/components/business/services-tags";
 import { SocialLinks } from "@/components/business/social-links";
 import { BusinessReviewsSection } from "@/components/business/business-reviews-section";
 import { ProfilePhotoMosaic } from "@/components/business/profile-photo-mosaic";
+import { GatedCallAction } from "@/components/business/gated-call-action";
+import { LoginGatedBlock } from "@/components/business/login-gated-block";
 import { SaveBusinessButton } from "@/components/business/save-business-button";
 import { ShareBusinessButton } from "@/components/business/share-business-button";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { showPublicVerifiedBadge } from "@/lib/membership-display";
+import {
+  isPremiumBusiness,
+  showPublicVerifiedBadge,
+} from "@/lib/membership-display";
 import { fetchBusinessEngagement } from "@/lib/customer";
 import { getStoredToken } from "@/lib/session";
+import {
+  formatExternalUrlLabel,
+  hasAnySocialLink,
+  hasExternalUrl,
+  normalizeExternalUrl,
+} from "@/lib/external-url";
 import { cn } from "@/lib/cn";
 import type { BusinessDetail, PublicReview } from "@/types/api";
 
@@ -51,6 +57,7 @@ function collectPhotos(business: BusinessDetail) {
 export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [saved, setSaved] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userReview, setUserReview] = useState<PublicReview | null>(null);
   const [reviews, setReviews] = useState(business.reviews);
   const [rating, setRating] = useState(business.rating);
@@ -58,14 +65,25 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
 
   const photos = useMemo(() => collectPhotos(business), [business]);
   const showVerified = showPublicVerifiedBadge(business);
-  const isPremium = business.isPremium;
+  const isPremium = isPremiumBusiness(business);
 
-  const socialLinks = useMemo(
-    () => ({ ...business.socialLinks, website: business.website }),
-    [business.socialLinks, business.website],
-  );
+  const socialLinks = useMemo(() => {
+    const website = business.website?.trim() ?? "";
+    return {
+      facebook: business.socialLinks?.facebook?.trim() ?? "",
+      instagram: business.socialLinks?.instagram?.trim() ?? "",
+      linkedin: business.socialLinks?.linkedin?.trim() ?? "",
+      youtube: business.socialLinks?.youtube?.trim() ?? "",
+      website,
+    };
+  }, [business.socialLinks, business.website]);
+
+  const websiteUrl = socialLinks.website;
+  const websiteHref = hasExternalUrl(websiteUrl) ? normalizeExternalUrl(websiteUrl) : "";
+  const showSocialSection = hasAnySocialLink(socialLinks);
 
   useEffect(() => {
+    setIsLoggedIn(Boolean(getStoredToken()));
     if (!getStoredToken()) return;
     fetchBusinessEngagement(business.slug)
       .then((data) => {
@@ -112,32 +130,31 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
               ) : null}
             </CardContent>
           </Card>
-          {!isPremium ? (
-            <p className="rounded-xl border border-dashed border-border bg-muted/20 p-4 text-sm text-muted-foreground">
-              Gallery and full profile unlock with a verified Standard listing on Site Mitra.
-            </p>
-          ) : null}
         </div>
       ),
     },
-    {
-      id: "photos",
-      label: "Photos",
-      content: (
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Photos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isPremium && photos.length > 0 ? (
-              <GalleryGrid images={photos} placeholderCount={6} />
-            ) : (
-              <ProfilePhotoMosaic images={photos} businessName={business.businessName} />
-            )}
-          </CardContent>
-        </Card>
-      ),
-    },
+    ...(photos.length > 0
+      ? [
+          {
+            id: "photos" as const,
+            label: "Photos",
+            content: (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Photos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {isPremium ? (
+                    <GalleryGrid images={photos} placeholderCount={6} />
+                  ) : (
+                    <ProfilePhotoMosaic images={photos} businessName={business.businessName} />
+                  )}
+                </CardContent>
+              </Card>
+            ),
+          },
+        ]
+      : []),
     {
       id: "reviews",
       label: `Reviews${totalReviews > 0 ? ` (${totalReviews})` : ""}`,
@@ -152,22 +169,57 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
         />
       ),
     },
-    {
-      id: "info",
-      label: "Quick Info",
-      content: (
-        <div className="grid gap-4 sm:grid-cols-2">
+    ...(isPremium
+      ? [
+          {
+            id: "info" as const,
+            label: "Quick Info",
+            content: (
+              <div className="grid gap-4 sm:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Contact</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 text-sm text-muted-foreground">
-              {business.phoneNumber ? <p>Phone: {business.phoneNumber}</p> : null}
-              {business.email ? <p>Email: {business.email}</p> : null}
-              {business.whatsappNumber ? <p>WhatsApp: {business.whatsappNumber}</p> : null}
-              {!business.phoneNumber && !business.email && !business.whatsappNumber ? (
-                <p>Contact details not added yet.</p>
-              ) : null}
+            <CardContent className="text-sm text-muted-foreground">
+              <LoginGatedBlock
+                isLoggedIn={isLoggedIn}
+                message="Log in to view contact details."
+              >
+                <div className="space-y-2.5">
+                  {business.phoneNumber ? <p>Phone: {business.phoneNumber}</p> : null}
+                  {business.email ? (
+                    <p>
+                      Email:{" "}
+                      <a
+                        href={`mailto:${business.email}`}
+                        className="font-medium text-accent hover:underline"
+                      >
+                        {business.email}
+                      </a>
+                    </p>
+                  ) : null}
+                  {business.whatsappNumber ? <p>WhatsApp: {business.whatsappNumber}</p> : null}
+                  {websiteHref ? (
+                    <p>
+                      Website:{" "}
+                      <a
+                        href={websiteHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-accent hover:underline"
+                      >
+                        {formatExternalUrlLabel(websiteUrl)}
+                      </a>
+                    </p>
+                  ) : null}
+                  {!business.phoneNumber &&
+                  !business.email &&
+                  !business.whatsappNumber &&
+                  !websiteHref ? (
+                    <p>Contact details not added yet.</p>
+                  ) : null}
+                </div>
+              </LoginGatedBlock>
             </CardContent>
           </Card>
           <Card>
@@ -175,33 +227,46 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
               <CardTitle className="text-base">Location</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              <p className="flex items-start gap-1.5">
-                <HiOutlineMapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                {locationLine || "Not specified"}
-              </p>
+              <LoginGatedBlock isLoggedIn={isLoggedIn} message="Log in to view location.">
+                <p className="flex items-start gap-1.5">
+                  <HiOutlineMapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  {locationLine || "Not specified"}
+                </p>
+              </LoginGatedBlock>
             </CardContent>
           </Card>
-          <Card className="sm:col-span-2">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">Social</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SocialLinks links={socialLinks} />
-            </CardContent>
-          </Card>
-        </div>
-      ),
-    },
+          {showSocialSection ? (
+            <Card className="sm:col-span-2">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Website & social links</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <LoginGatedBlock
+                  isLoggedIn={isLoggedIn}
+                  message="Log in to view website and social links."
+                >
+                  <SocialLinks links={socialLinks} showLabels />
+                </LoginGatedBlock>
+              </CardContent>
+            </Card>
+          ) : null}
+              </div>
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (
     <div className="min-w-0 space-y-0 pb-24 lg:pb-8">
       {/* Photo mosaic */}
-      <ProfilePhotoMosaic
-        images={photos}
-        businessName={business.businessName}
-        onSelect={() => setActiveTab("photos")}
-      />
+      {photos.length > 0 ? (
+        <ProfilePhotoMosaic
+          images={photos}
+          businessName={business.businessName}
+          onSelect={() => setActiveTab("photos")}
+        />
+      ) : null}
 
       {/* Header card */}
       <section className="-mt-1 rounded-t-2xl border border-border bg-card px-4 pb-4 pt-5 shadow-sm sm:px-6">
@@ -211,7 +276,7 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
               <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                 {business.businessName}
               </h1>
-              {showVerified ? <VerifiedBadge /> : null}
+              {showVerified ? <VerifiedBadge size="lg" /> : null}
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {totalReviews > 0 ? (
@@ -223,12 +288,6 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
               {totalReviews > 0 ? (
                 <span className="text-sm text-muted-foreground">
                   {totalReviews} {totalReviews === 1 ? "rating" : "ratings"}
-                </span>
-              ) : null}
-              {showVerified ? (
-                <span className="inline-flex items-center gap-1 text-xs font-medium text-sky-700">
-                  <HiCheckBadge className="h-4 w-4" aria-hidden />
-                  Verified
                 </span>
               ) : null}
             </div>
@@ -245,6 +304,7 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
           <BusinessContactActions
             whatsappNumber={business.whatsappNumber}
             phoneNumber={business.phoneNumber}
+            showWhatsApp={isPremium}
             businessName={business.businessName}
             slug={business.slug}
             category={business.category}
@@ -306,13 +366,7 @@ export function BusinessProfilePage({ business }: BusinessProfilePageProps) {
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 p-3 backdrop-blur-md lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-2">
           {business.phoneNumber ? (
-            <a
-              href={`tel:${business.phoneNumber.replace(/\s/g, "")}`}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
-            >
-              <HiOutlinePhone className="h-4 w-4" />
-              Call
-            </a>
+            <GatedCallAction phone={business.phoneNumber} className="flex-1 px-3" />
           ) : null}
           <SaveBusinessButton slug={business.slug} initialSaved={saved} className="shrink-0" />
         </div>

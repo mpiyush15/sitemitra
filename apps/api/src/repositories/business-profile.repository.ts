@@ -1,23 +1,60 @@
 import { MEMBERSHIP_PLANS } from "../lib/constants.js";
 import { BusinessProfileModel, type BusinessProfileDocument } from "../models/business-profile.model.js";
 
+const PROFESSIONAL_CATEGORY_PATTERN =
+  /engineer|architect|contractor|interior|plumber|electrical|painter|surveyor|fabricator|designer/i;
+const VENDOR_CATEGORY_PATTERN =
+  /vendor|dealer|supplier|material|cement|steel|hardware|tile|marble|machinery|building/i;
+
 export type BusinessListFilter = {
   category?: string;
+  profession?: string;
+  categoryType?: "professional" | "vendor";
   city?: string;
+  experience?: string;
   q?: string;
   skip: number;
   limit: number;
 };
 
-function buildListFilter({ category, city, q }: Omit<BusinessListFilter, "skip" | "limit">) {
+function buildExperienceFilter(experience: string) {
+  const minYears = Number.parseInt(experience, 10);
+  if (Number.isNaN(minYears)) {
+    return { experience: { $regex: escapeRegex(experience), $options: "i" } };
+  }
+  return {
+    experience: {
+      $regex: new RegExp(`${minYears}\\s*\\+?|${minYears}\\s*[-–]?\\s*\\d+|${minYears}\\s*y`, "i"),
+    },
+  };
+}
+
+function buildListFilter({
+  category,
+  profession,
+  categoryType,
+  city,
+  experience,
+  q,
+}: Omit<BusinessListFilter, "skip" | "limit">) {
   const filter: Record<string, unknown> = {};
 
-  if (category) {
+  if (profession) {
+    filter.category = { $regex: new RegExp(escapeRegex(profession), "i") };
+  } else if (category) {
     filter.category = { $regex: new RegExp(escapeRegex(category), "i") };
+  } else if (categoryType === "professional") {
+    filter.category = { $regex: PROFESSIONAL_CATEGORY_PATTERN };
+  } else if (categoryType === "vendor") {
+    filter.category = { $regex: VENDOR_CATEGORY_PATTERN };
   }
 
   if (city) {
     filter.city = { $regex: new RegExp(`^${escapeRegex(city)}$`, "i") };
+  }
+
+  if (experience) {
+    Object.assign(filter, buildExperienceFilter(experience));
   }
 
   if (q) {

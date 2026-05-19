@@ -58,12 +58,17 @@ export const authService = {
       throw new ConflictError("Email is already registered");
     }
 
+    const existingPhone = await userRepository.findByPhone(input.phone);
+    if (existingPhone) {
+      throw new ConflictError("This mobile number is already registered");
+    }
+
     const passwordHash = await hashPassword(input.password);
 
     const user = await userRepository.create({
       fullName: input.fullName,
       email: input.email,
-      phone: input.phone?.trim() ?? "",
+      phone: input.phone,
       city: input.role === ROLES.USER ? (input.city?.trim() ?? "") : "",
       passwordHash,
       role: input.role,
@@ -84,8 +89,8 @@ export const authService = {
         slug,
         category: input.category,
         city: input.city,
-        phoneNumber: input.phone ?? "",
-        whatsappNumber: input.phone ?? "",
+        phoneNumber: input.phone,
+        whatsappNumber: input.phone,
         email: input.email,
         isPublished: false,
       });

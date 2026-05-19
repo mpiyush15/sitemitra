@@ -1,0 +1,31 @@
+• Header logo visibility improvements
+• Contact number visibility in header
+• Bigger social media icons/buttons Done
+• Browse listings section positioning Done
+• Featured listings shown above normal listings
+• Premium visual styling for featured profiles
+• Bigger verified badge UI
+• About SiteMitra section
+• Better “Why Choose SiteMitra” section design
+• Blog section
+• Work/project showcase section
+• Additional categories
+• Search/filter improvements
+• Reviews & ratings visibility
+• Admin moderation for reviews
+• Professional profile details
+• WhatsApp button improvements
+• Call button for featured profiles
+• Upgrade plan button
+• Image upload bug fixes
+• Mobile UI improvements
+• SEO optimization improvements
+• Meta titles/descriptions
+• City SEO pages
+• Faster loading/image optimization
+• Lazy loading
+• Spam protection basics
+• Better free vs paid profile UI differentiation
+• Portfolio/project gallery support
+• Social media/profile links
+• Professional fields like experience, specialization, team size

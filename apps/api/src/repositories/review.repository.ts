@@ -27,6 +27,17 @@ export const reviewRepository = {
     return ReviewModel.find({ isApproved: false }).sort({ createdAt: -1 }).limit(limit);
   },
 
+  findAllForAdmin(limit = 200) {
+    return ReviewModel.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate("businessId", "businessName slug");
+  },
+
+  deleteById(id: string) {
+    return ReviewModel.findByIdAndDelete(id);
+  },
+
   updateApproval(id: string, isApproved: boolean) {
     return ReviewModel.findByIdAndUpdate(id, { isApproved }, { new: true });
   },

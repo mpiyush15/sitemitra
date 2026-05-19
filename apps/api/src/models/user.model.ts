@@ -12,7 +12,7 @@ const userSchema = new Schema(
       trim: true,
       index: true,
     },
-    phone: { type: String, trim: true, default: "" },
+    phone: { type: String, trim: true, default: "", index: true },
     /** Home city for customer (user) accounts */
     city: { type: String, trim: true, default: "", maxlength: 120 },
     passwordHash: { type: String, required: true, select: false },
@@ -32,6 +32,14 @@ const userSchema = new Schema(
     isVerified: { type: Boolean, default: false },
   },
   { timestamps: true },
+);
+
+userSchema.index(
+  { phone: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { phone: { $type: "string", $gt: "" } },
+  },
 );
 
 export type User = InferSchemaType<typeof userSchema>;
