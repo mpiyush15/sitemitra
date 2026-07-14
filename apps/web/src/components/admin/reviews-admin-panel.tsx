@@ -11,7 +11,7 @@ import {
   type AdminReviewRow,
 } from "@/lib/admin-platform";
 import { ApiClientError } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 
 type ReviewFilter = "all" | "visible" | "hidden";
 
@@ -96,7 +96,7 @@ export function ReviewsAdminPanel() {
             key={option.value}
             type="button"
             size="sm"
-            variant={filter === option.value ? "default" : "outline"}
+            variant={filter === option.value ? "primary" : "outline"}
             onClick={() => setFilter(option.value)}
           >
             {option.label}

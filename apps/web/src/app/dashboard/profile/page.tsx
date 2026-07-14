@@ -77,8 +77,10 @@ export default function DashboardProfilePage() {
         website: isStandard ? formData.website : "",
         services: formData.services,
         socialLinks: {
-          ...formData.socialLinks,
           facebook: isStandard ? formData.socialLinks?.facebook ?? "" : "",
+          instagram: formData.socialLinks?.instagram ?? "",
+          linkedin: formData.socialLinks?.linkedin ?? "",
+          youtube: formData.socialLinks?.youtube ?? "",
         },
         gallery: formData.gallery,
       });
