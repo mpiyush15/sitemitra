@@ -2,17 +2,14 @@
 
 # ======================================================================
 # Site Mitra Database Migration Script
-# Copies data from MongoDB Atlas to your VPS MongoDB instance
+# Copies data from MongoDB Atlas directly into the VPS local database
 # ======================================================================
 
 # 1. Source (MongoDB Atlas) URI
-# Ensure this matches exactly what's in your apps/api/.env right now
 SOURCE_URI="mongodb+srv://utkarsheducation54_db_user:Utkarsh2026@cluster0.kntmwaj.mongodb.net/site-mitra"
 
-# 2. Destination (Your VPS) URI
-# Change "YourStrongPasswordHere" to the password you created on the VPS
-# Note: Ensure port 27017 is open on your VPS (187.127.147.166) or you run this script ON the VPS
-DEST_URI="mongodb://sitemitra_admin:YourStrongPasswordHere@187.127.147.166:27017/site-mitra"
+# 2. Destination (Local VPS MongoDB) URI
+DEST_URI="mongodb://localhost:27017/sitemitra"
 
 echo "========================================="
 echo "Starting Database Migration..."
@@ -25,22 +22,19 @@ mongodump --uri="$SOURCE_URI"
 if [ $? -eq 0 ]; then
   echo "✅ Data successfully downloaded from Atlas."
 else
-  echo "❌ Error downloading data. Do you have MongoDB Database Tools installed?"
-  echo "If not, run: brew tap mongodb/brew && brew install mongodb-database-tools"
+  echo "❌ Error downloading data. Make sure mongodump is installed."
   exit 1
 fi
 
-# Step 2: Restore the data to the VPS
+# Step 2: Restore the data to the VPS local MongoDB
 echo "[2/3] Uploading data to your VPS MongoDB..."
-# The dump is saved in a folder called 'dump/site-mitra'
+# The dump is saved in a folder called 'dump/site-mitra' (because Atlas db is named site-mitra)
 mongorestore --uri="$DEST_URI" --drop dump/site-mitra
 
 if [ $? -eq 0 ]; then
-  echo "✅ Data successfully uploaded to VPS!"
+  echo "✅ Data successfully restored to local VPS database!"
 else
-  echo "❌ Error uploading to VPS. Please check:"
-  echo "   - Did you replace 'YourStrongPasswordHere' with the real password in this script?"
-  echo "   - Is port 27017 open on the VPS? (If not, run this script from INSIDE the VPS using 127.0.0.1 instead of 187.127.147.166)"
+  echo "❌ Error restoring data to VPS. Make sure mongorestore is installed."
   exit 1
 fi
 
@@ -50,5 +44,5 @@ rm -rf dump
 
 echo "========================================="
 echo "🎉 Migration Complete!"
-echo "You can now update your apps/api/.env to point to the VPS MongoDB."
+echo "Your VPS now has all the data from Atlas."
 echo "========================================="
