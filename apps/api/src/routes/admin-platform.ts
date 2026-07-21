@@ -34,6 +34,11 @@ import {
   bannerIdParamSchema,
   bannerUpdateJsonSchema,
 } from "../validators/banner.validator.js";
+import {
+  categoryIdParamSchema,
+  createCategorySchema,
+  updateCategorySchema,
+} from "../validators/category.validator.js";
 import type { z } from "zod";
 import { MEMBERSHIP_PLANS } from "../lib/constants.js";
 
@@ -108,6 +113,28 @@ adminPlatformRouter.get(
   "/categories",
   asyncHandler(async (_req, res) => {
     return sendSuccess(res, await adminService.listCategories());
+  }),
+);
+
+adminPlatformRouter.post(
+  "/categories",
+  validate(createCategorySchema),
+  asyncHandler(async (req, res) => {
+    const body = getValidatedBody<z.infer<typeof createCategorySchema>>(req);
+    const category = await adminService.createCategory(body);
+    return sendSuccess(res, category, { message: "Category created" });
+  }),
+);
+
+adminPlatformRouter.patch(
+  "/categories/:id",
+  validate(categoryIdParamSchema, "params"),
+  validate(updateCategorySchema),
+  asyncHandler(async (req, res) => {
+    const { id } = getValidatedParams<{ id: string }>(req);
+    const body = getValidatedBody<z.infer<typeof updateCategorySchema>>(req);
+    const category = await adminService.updateCategory(id, body);
+    return sendSuccess(res, category, { message: "Category updated" });
   }),
 );
 

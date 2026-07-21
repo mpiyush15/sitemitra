@@ -66,7 +66,7 @@ export function ListingsFilterBar({
         categoryType: filters.categoryType,
         city: filters.city,
         experience: filters.experience,
-        featured: filters.featured,
+        featured: undefined,
         q: filters.q,
         page: 1,
         ...patch,

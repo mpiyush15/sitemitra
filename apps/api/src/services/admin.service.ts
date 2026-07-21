@@ -1,10 +1,10 @@
 import { BannerModel } from "../models/banner.model.js";
+import { CategoryModel } from "../models/category.model.js";
 import { NotFoundError } from "../lib/errors.js";
 import { toSafeUser } from "../lib/serializers.js";
 import { toBusinessCard } from "../lib/public-serializers.js";
 import {
   businessProfileRepository,
-  categoryRepository,
   reviewRepository,
   userRepository,
 } from "../repositories/index.js";
@@ -56,7 +56,30 @@ export const adminService = {
   },
 
   async listCategories() {
-    const categories = await categoryRepository.findAll();
+    const categories = await CategoryModel.aggregate([
+      {
+        $lookup: {
+          from: "businessprofiles",
+          localField: "categoryName",
+          foreignField: "category",
+          as: "businesses",
+        },
+      },
+      {
+        $addFields: {
+          businessCount: { $size: "$businesses" },
+        },
+      },
+      {
+        $project: {
+          businesses: 0,
+        },
+      },
+      {
+        $sort: { sortOrder: 1, categoryName: 1 },
+      },
+    ]);
+
     return categories.map((category) => ({
       id: category._id.toString(),
       categoryName: category.categoryName,
@@ -64,7 +87,57 @@ export const adminService = {
       icon: category.icon ?? "",
       isActive: category.isActive,
       sortOrder: category.sortOrder,
+      businessCount: category.businessCount,
     }));
+  },
+
+  async createCategory(input: { categoryName: string; icon?: string; sortOrder?: number }) {
+    const slug = input.categoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const doc = await CategoryModel.create({
+      categoryName: input.categoryName.trim(),
+      slug,
+      icon: input.icon?.trim() ?? "",
+      sortOrder: input.sortOrder ?? 0,
+      isActive: true,
+    });
+    return {
+      id: doc._id.toString(),
+      categoryName: doc.categoryName,
+      slug: doc.slug,
+      icon: doc.icon,
+      isActive: doc.isActive,
+      sortOrder: doc.sortOrder,
+      businessCount: 0,
+    };
+  },
+
+  async updateCategory(
+    id: string,
+    input: { categoryName?: string; icon?: string; isActive?: boolean; sortOrder?: number }
+  ) {
+    const category = await CategoryModel.findById(id);
+    if (!category) {
+      throw new NotFoundError("Category not found");
+    }
+
+    if (input.categoryName !== undefined) {
+      category.categoryName = input.categoryName.trim();
+      category.slug = category.categoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    }
+    if (input.icon !== undefined) category.icon = input.icon.trim();
+    if (input.isActive !== undefined) category.isActive = input.isActive;
+    if (input.sortOrder !== undefined) category.sortOrder = input.sortOrder;
+
+    await category.save();
+
+    return {
+      id: category._id.toString(),
+      categoryName: category.categoryName,
+      slug: category.slug,
+      icon: category.icon,
+      isActive: category.isActive,
+      sortOrder: category.sortOrder,
+    };
   },
 
   async listReviews() {

@@ -114,13 +114,11 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
             </div>
           </div>
 
-          {!filters.featured ? (
-            <ListingsFilterBar
-              filters={filters}
-              cities={cityNames}
-              categories={categories}
-            />
-          ) : null}
+          <ListingsFilterBar
+            filters={filters}
+            cities={cityNames}
+            categories={categories}
+          />
 
           <ListingsPageSearchBridge />
         </div>

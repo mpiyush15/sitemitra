@@ -11,6 +11,35 @@ export type PlatformAnalytics = {
   profileVisitors: number;
   uniqueVisitors: number;
   enquiriesTotal: number;
+  usersCount: number;
+  businessesCount: number;
+  reviewsCount: number;
+  topBusinesses: {
+    id: string;
+    businessName: string;
+    slug: string;
+    category: string;
+    city: string;
+    logo: string;
+    rating: number;
+    totalReviews: number;
+  }[];
+  topCategories: {
+    id: string;
+    categoryName: string;
+    slug: string;
+    icon: string;
+    businessCount: number;
+  }[];
+  recentReviews: {
+    id: string;
+    businessName: string;
+    businessSlug: string;
+    customerName: string;
+    rating: number;
+    reviewText: string;
+    createdAt: string;
+  }[];
 };
 
 const VISITOR_SESSION_KEY = "site-mitra:visitor-session";

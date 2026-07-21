@@ -95,6 +95,9 @@ export type CategoryItem = {
   categoryName: string;
   slug: string;
   icon: string;
+  isActive?: boolean;
+  sortOrder?: number;
+  businessCount?: number;
 };
 
 export type CityItem = {

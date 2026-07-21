@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { AdminStatsCards } from "@/components/admin/admin-stats-cards";
 import { PlanBadge } from "@/components/ui/plan-badge";
 import { Spinner } from "@/components/ui/spinner";
@@ -21,6 +22,9 @@ import { MEMBERSHIP_PLANS, ROLES } from "@/lib/constants";
 type FeaturedFilter = "all" | "featured" | "not_featured";
 
 export function BusinessesAdminPanel() {
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get("category") ?? "";
+
   const [businesses, setBusinesses] = useState<AdminBusinessRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -30,7 +34,7 @@ export function BusinessesAdminPanel() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   const [searchQ, setSearchQ] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState(initialCategory);
   const [cityFilter, setCityFilter] = useState("");
   const [featuredFilter, setFeaturedFilter] = useState<FeaturedFilter>("all");
 

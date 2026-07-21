@@ -95,6 +95,27 @@ export async function fetchAdminCategories(): Promise<CategoryItem[]> {
   return apiFetch<CategoryItem[]>(API_ROUTES.admin.categories);
 }
 
+export async function createAdminCategory(body: {
+  categoryName: string;
+  icon?: string;
+  sortOrder?: number;
+}): Promise<CategoryItem> {
+  return apiFetch<CategoryItem>(API_ROUTES.admin.categories, {
+    method: "POST",
+    body,
+  });
+}
+
+export async function updateAdminCategory(
+  id: string,
+  body: Partial<{ categoryName: string; icon: string; sortOrder: number; isActive: boolean }>
+): Promise<CategoryItem> {
+  return apiFetch<CategoryItem>(`${API_ROUTES.admin.categories}/${id}`, {
+    method: "PATCH",
+    body,
+  });
+}
+
 export async function fetchAdminReviews(): Promise<AdminReviewRow[]> {
   return apiFetch<AdminReviewRow[]>(API_ROUTES.admin.reviews);
 }
