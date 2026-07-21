@@ -8,6 +8,5 @@ export function isPlatformAdmin(role: string) {
 
 export function getPostAuthPath(role: string) {
   if (isPlatformAdmin(role)) return "/admin";
-  if (role === ROLES.USER) return "/";
   return "/dashboard";
 }

@@ -29,10 +29,6 @@ export function PlatformBusinessLayout({ children }: { children: ReactNode }) {
           router.replace("/admin");
           return;
         }
-        if (data.user.role === ROLES.USER) {
-          router.replace("/");
-          return;
-        }
         setProfile(data);
       })
       .catch((err) => {
