@@ -63,6 +63,12 @@ export const PLATFORM_NAV: PlatformNavSection[] = [
         icon: HiOutlineChatBubbleLeftRight,
         roles: [ROLES.ADMIN, ROLES.SUPER_ADMIN],
       },
+      {
+        label: "Inquiries",
+        href: "/admin/inquiries",
+        icon: HiOutlineChatBubbleLeftRight,
+        roles: [ROLES.SUPER_ADMIN],
+      },
     ],
   },
   {

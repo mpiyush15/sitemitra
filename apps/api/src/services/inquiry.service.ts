@@ -23,6 +23,14 @@ function toInquiryItem(inquiry: {
   };
 }
 
+function toAdminInquiryItem(inquiry: any) {
+  return {
+    ...toInquiryItem(inquiry),
+    businessName: inquiry.businessId?.businessName ?? "Unknown Business",
+    businessSlug: inquiry.businessId?.slug ?? "",
+  };
+}
+
 export const inquiryService = {
   async createForSlug(slug: string, input: CreateInquiryInput) {
     const business = await businessProfileRepository.findBySlug(slug);
@@ -75,5 +83,10 @@ export const inquiryService = {
     }
 
     return toInquiryItem(updated);
+  },
+
+  async listAllForAdmin() {
+    const inquiries = await inquiryRepository.findAllWithBusiness();
+    return inquiries.map(toAdminInquiryItem);
   },
 };

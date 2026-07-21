@@ -20,6 +20,14 @@ export const inquiryRepository = {
       .lean<InquiryDocument[]>();
   },
 
+  async findAllWithBusiness(limit = 500) {
+    return InquiryModel.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate("businessId", "businessName slug")
+      .lean<any[]>();
+  },
+
   async countByBusinessId(businessId: string) {
     return InquiryModel.countDocuments({ businessId });
   },

@@ -207,6 +207,7 @@ export const API_ROUTES = {
     categories: "/admin/categories",
     reviews: "/admin/reviews",
     banners: "/admin/banners",
+    inquiries: "/admin/inquiries",
     membership: {
       plans: "/admin/membership/plans",
       paymentSettings: "/admin/membership/payment-settings",

@@ -30,6 +30,18 @@ export type AdminReviewRow = {
   createdAt: string;
 };
 
+export type AdminInquiryRow = {
+  id: string;
+  businessName: string;
+  businessSlug: string;
+  customerName: string;
+  phone: string;
+  city: string;
+  requirement: string;
+  status: string;
+  createdAt: string;
+};
+
 export type AdminBannerRow = {
   id: string;
   title: string;
@@ -171,4 +183,8 @@ export async function deleteAdminBanner(id: string): Promise<{ id: string }> {
 
 export async function fetchAdminPayments(): Promise<AdminPaymentRow[]> {
   return apiFetch<AdminPaymentRow[]>(API_ROUTES.admin.membership.payments);
+}
+
+export async function fetchAdminInquiries(): Promise<AdminInquiryRow[]> {
+  return apiFetch<AdminInquiryRow[]>(API_ROUTES.admin.inquiries);
 }

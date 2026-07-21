@@ -10,6 +10,7 @@ import { env } from "../config/env.js";
 import { AppError } from "../lib/errors.js";
 import { adminService } from "../services/admin.service.js";
 import { membershipService } from "../services/membership.service.js";
+import { inquiryService } from "../services/inquiry.service.js";
 import {
   compressImageToWebp,
   deleteObjectByPublicUrl,
@@ -173,6 +174,13 @@ adminPlatformRouter.get(
   "/banners",
   asyncHandler(async (_req, res) => {
     return sendSuccess(res, await adminService.listBanners());
+  }),
+);
+
+adminPlatformRouter.get(
+  "/inquiries",
+  asyncHandler(async (_req, res) => {
+    return sendSuccess(res, await inquiryService.listAllForAdmin());
   }),
 );
 
