@@ -39,6 +39,13 @@ export function BusinessesAdminPanel() {
   const [featuredFilter, setFeaturedFilter] = useState<FeaturedFilter>("all");
 
   useEffect(() => {
+    const cat = searchParams.get("category");
+    if (cat) {
+      setCategoryFilter(cat);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError("");
