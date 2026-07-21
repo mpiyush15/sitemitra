@@ -2,6 +2,10 @@ import { NotFoundError } from "../lib/errors.js";
 import { businessProfileRepository } from "../repositories/business-profile.repository.js";
 import { inquiryRepository } from "../repositories/inquiry.repository.js";
 import { profileViewRepository } from "../repositories/profile-view.repository.js";
+import { UserModel } from "../models/user.model.js";
+import { BusinessProfileModel } from "../models/business-profile.model.js";
+import { ReviewModel } from "../models/review.model.js";
+import { CategoryModel } from "../models/category.model.js";
 
 export const analyticsService = {
   async recordProfileView(slug: string, sessionId: string) {
@@ -45,14 +49,10 @@ export const analyticsService = {
       profileViewRepository.countVisitorsAll(),
       profileViewRepository.countDistinctVisitorsAll(),
       inquiryRepository.countAll(),
-      import("../models/user.model.js").then((m) => m.UserModel.countDocuments()),
-      import("../models/business-profile.model.js").then((m) => m.BusinessProfileModel.countDocuments()),
-      import("../models/review.model.js").then((m) => m.ReviewModel.countDocuments()),
+      UserModel.countDocuments(),
+      BusinessProfileModel.countDocuments(),
+      ReviewModel.countDocuments(),
     ]);
-
-    const BusinessProfileModel = (await import("../models/business-profile.model.js")).BusinessProfileModel;
-    const CategoryModel = (await import("../models/category.model.js")).CategoryModel;
-    const ReviewModel = (await import("../models/review.model.js")).ReviewModel;
 
     const [topBusinesses, topCategories, recentReviews] = await Promise.all([
       BusinessProfileModel.find({ isPublished: true, isActive: { $ne: false } })
