@@ -61,7 +61,7 @@ export default function AdminPage() {
             {/* Top Businesses */}
             <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
               <h3 className="mb-4 font-semibold text-card-foreground">Top 5 Businesses</h3>
-              {data.topBusinesses.length > 0 ? (
+              {data.topBusinesses?.length > 0 ? (
                 <div className="space-y-4">
                   {data.topBusinesses.map((b, idx) => (
                     <Link
@@ -82,7 +82,7 @@ export default function AdminPage() {
                       </div>
                       <div className="text-right">
                         <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
-                          {b.rating.toFixed(1)} <FaStar className="h-3 w-3 fill-amber-400 text-amber-400" />
+                          {b.rating?.toFixed(1)} <FaStar className="h-3 w-3 fill-amber-400 text-amber-400" />
                         </div>
                         <p className="text-[10px] text-muted-foreground">{b.totalReviews} reviews</p>
                       </div>
@@ -97,7 +97,7 @@ export default function AdminPage() {
             {/* Top Categories */}
             <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
               <h3 className="mb-4 font-semibold text-card-foreground">Top 5 Categories</h3>
-              {data.topCategories.length > 0 ? (
+              {data.topCategories?.length > 0 ? (
                 <div className="space-y-4">
                   {data.topCategories.map((c, idx) => (
                     <Link
@@ -134,7 +134,7 @@ export default function AdminPage() {
                   View all
                 </Link>
               </div>
-              {data.recentReviews.length > 0 ? (
+              {data.recentReviews?.length > 0 ? (
                 <div className="space-y-4">
                   {data.recentReviews.map((r) => (
                     <div key={r.id} className="rounded-lg border border-border/50 bg-muted/20 p-3">
