@@ -3,8 +3,8 @@
 # Configuration
 DOMAIN="sitemitraa.com"
 PORT=3006
-NGINX_AVAILABLE="/etc/nginx/sites-available/$DOMAIN"
-NGINX_ENABLED="/etc/nginx/sites-enabled/$DOMAIN"
+NGINX_AVAILABLE="/etc/nginx/sites-available/$DOMAIN.conf"
+NGINX_ENABLED="/etc/nginx/sites-enabled/$DOMAIN.conf"
 
 echo "Setting up Nginx reverse proxy for $DOMAIN on port $PORT..."
 
