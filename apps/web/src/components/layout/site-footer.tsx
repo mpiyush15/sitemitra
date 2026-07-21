@@ -1,9 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { HiOutlineEnvelope, HiOutlineMapPin } from "react-icons/hi2";
 import {
   CLIENT_CATEGORIES,
-  LAUNCH_CITIES,
   MAIN_NAV,
   SITE_CONTACT,
   SITE_NAME,
@@ -12,7 +13,11 @@ import {
   SITE_TAGLINE,
 } from "@/lib/constants";
 
+import { useCities } from "@/hooks/use-cities";
+
 export function SiteFooter() {
+  const { cityNames } = useCities();
+  
   return (
     <footer
       id="contact"
@@ -88,7 +93,7 @@ export function SiteFooter() {
             </li>
           </ul>
           <p className="text-xs text-primary-foreground/60">
-            Serving {LAUNCH_CITIES.join(" · ")}
+            Serving {cityNames.length > 0 ? cityNames.join(" · ") : ""}
           </p>
         </div>
       </div>

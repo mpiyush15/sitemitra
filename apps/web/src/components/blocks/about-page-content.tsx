@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   HiOutlineBuildingOffice2,
@@ -5,9 +7,11 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
-import { ABOUT_CONTENT, LAUNCH_CITIES, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { ABOUT_CONTENT, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { useCities } from "@/hooks/use-cities";
 
 export function AboutPageContent() {
+  const { cityNames } = useCities();
   return (
     <div className="relative overflow-hidden">
       <div
@@ -37,7 +41,7 @@ export function AboutPageContent() {
               icon={HiOutlineBuildingOffice2}
               title={ABOUT_CONTENT.purpose.title}
               body={ABOUT_CONTENT.purpose.body}
-              footer={`Serving ${LAUNCH_CITIES.join(" & ")}.`}
+              footer={cityNames.length > 0 ? `Serving ${cityNames.join(" & ")}.` : "Serving you."}
             />
             <InfoCard
               icon={HiOutlineUserGroup}

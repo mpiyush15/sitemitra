@@ -12,7 +12,8 @@ import { registerUser } from "@/lib/auth";
 import { getPostAuthPath } from "@/lib/auth-routing";
 import { useAuthTransition } from "@/lib/auth-transition";
 import { ApiClientError } from "@/lib/api";
-import { LAUNCH_CITIES, ROLES } from "@/lib/constants";
+import { ROLES } from "@/lib/constants";
+import { useCities } from "@/hooks/use-cities";
 
 type CustomerRegisterFormProps = {
   onSwitchToLogin?: () => void;
@@ -27,12 +28,13 @@ export function CustomerRegisterForm({
 }: CustomerRegisterFormProps) {
   const router = useRouter();
   const { transitionTo } = useAuthTransition();
+  const { cityNames } = useCities();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     phone: "",
     password: "",
-    city: LAUNCH_CITIES[0] ?? "Akola",
+    city: cityNames[0] ?? "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -127,7 +129,7 @@ export function CustomerRegisterForm({
 
       <FormField label="City" htmlFor="cust-city">
         <Select id="cust-city" value={form.city} onChange={set("city")} className="h-10">
-          {LAUNCH_CITIES.map((c) => (
+          {cityNames.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>

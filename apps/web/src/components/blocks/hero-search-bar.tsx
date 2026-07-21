@@ -13,7 +13,7 @@ import { CyclingSearchPlaceholder } from "@/components/layout/cycling-search-pla
 import { useCategories } from "@/hooks/use-categories";
 import { useCyclingSearchSuggestion } from "@/hooks/use-cycling-search-suggestion";
 import { useSmartListingsSearch } from "@/hooks/use-smart-listings-search";
-import { LAUNCH_CITIES } from "@/lib/constants";
+import { useCities } from "@/hooks/use-cities";
 import { cn } from "@/lib/cn";
 
 type HeroSearchBarProps = {
@@ -30,6 +30,7 @@ const fieldSelect =
 export function HeroSearchBar({ className }: HeroSearchBarProps) {
   const navigateToSmartSearch = useSmartListingsSearch();
   const { categories } = useCategories();
+  const { cityNames } = useCities();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
@@ -42,7 +43,7 @@ export function HeroSearchBar({ className }: HeroSearchBarProps) {
       category,
       city,
       categories,
-      cities: [...LAUNCH_CITIES],
+      cities: cityNames,
     });
   }
 
@@ -125,7 +126,7 @@ export function HeroSearchBar({ className }: HeroSearchBarProps) {
               aria-label="City"
             >
               <option value="">All cities</option>
-              {LAUNCH_CITIES.map((c) => (
+              {cityNames.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>

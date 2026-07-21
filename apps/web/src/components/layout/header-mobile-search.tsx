@@ -10,7 +10,7 @@ import {
   getSearchSuggestionHref,
   useCyclingSearchSuggestion,
 } from "@/hooks/use-cycling-search-suggestion";
-import { LAUNCH_CITIES } from "@/lib/constants";
+import { useCities } from "@/hooks/use-cities";
 import { useSmartListingsSearch } from "@/hooks/use-smart-listings-search";
 import { useRouteNavigate } from "@/hooks/use-route-navigate";
 import { cn } from "@/lib/cn";
@@ -31,13 +31,13 @@ export function HeaderMobileSearch({
   defaultQuery = "",
   defaultCategory = "",
   defaultCity = "",
-  cities = [...LAUNCH_CITIES],
   showFilters = false,
   onAfterSubmit,
 }: HeaderMobileSearchProps) {
   const navigate = useRouteNavigate();
   const navigateToSmartSearch = useSmartListingsSearch();
   const { categories } = useCategories();
+  const { cityNames } = useCities();
   const [query, setQuery] = useState(defaultQuery);
   const [category, setCategory] = useState(defaultCategory);
   const [city, setCity] = useState(defaultCity);
@@ -57,7 +57,7 @@ export function HeaderMobileSearch({
       category,
       city,
       categories,
-      cities,
+      cities: cityNames,
     });
   }
 
@@ -109,7 +109,7 @@ export function HeaderMobileSearch({
             className="h-9 rounded-full border-border bg-background px-3 text-xs"
           >
             <option value="">All cities</option>
-            {cities.map((item) => (
+            {cityNames.map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>

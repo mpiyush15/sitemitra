@@ -12,7 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { LAUNCH_CITIES, SITE_TAGLINE } from "@/lib/constants";
+import { SITE_TAGLINE } from "@/lib/constants";
+import { useCities } from "@/hooks/use-cities";
 import { useCategories } from "@/hooks/use-categories";
 import { useCyclingSearchSuggestion } from "@/hooks/use-cycling-search-suggestion";
 import { useSmartListingsSearch } from "@/hooks/use-smart-listings-search";
@@ -28,6 +29,7 @@ const QUICK_SEARCHES = [
 export function SearchPlatformHero() {
   const navigateToSmartSearch = useSmartListingsSearch();
   const { categories } = useCategories();
+  const { cityNames } = useCities();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
@@ -39,7 +41,7 @@ export function SearchPlatformHero() {
       category: overrides?.category ?? category,
       city: overrides?.city ?? city,
       categories,
-      cities: [...LAUNCH_CITIES],
+      cities: cityNames,
     });
   }
 
@@ -128,7 +130,7 @@ export function SearchPlatformHero() {
                       aria-label="City"
                     >
                       <option value="">All cities</option>
-                      {LAUNCH_CITIES.map((c) => (
+                      {cityNames.map((c) => (
                         <option key={c} value={c}>
                           {c}
                         </option>
@@ -171,7 +173,7 @@ export function SearchPlatformHero() {
               </span>
               <span className="hidden h-3 w-px bg-border sm:block" />
               <span>
-                <span className="font-semibold text-primary">{LAUNCH_CITIES.length}</span> cities
+                <span className="font-semibold text-primary">{cityNames.length}</span> cities
               </span>
             </div>
           </div>
